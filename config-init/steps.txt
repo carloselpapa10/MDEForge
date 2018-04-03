@@ -1,0 +1,4 @@
+
+1. docker exec -it mongodb bash
+2. mongo
+3. query (SetUserdbMongoDB.js)
