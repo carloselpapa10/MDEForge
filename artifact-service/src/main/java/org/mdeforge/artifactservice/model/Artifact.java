@@ -3,23 +3,16 @@ package org.mdeforge.artifactservice.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.mdeforge.servicemodel.project.api.info.ProjectInfo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-@ToString
-@NoArgsConstructor
 public class Artifact {
 
 	@Id
 	private String id;
 	private Date created;
 	private Date modified;
-	private GridFileMedia file = null;
+	private GridFileMedia file;
 	private boolean open;
 	private String name;
 	private List<Comment> comments = new ArrayList<>();
@@ -38,10 +31,13 @@ public class Artifact {
 	private String defaultWeightedContents;
 	
 	private List<Relation> relations = new ArrayList<>();
-	private List<ProjectInfo> projects = new ArrayList<>();
-	//private List<UserInfo> shared = new ArrayList<>();
+	private List<String> projectsId = new ArrayList<>();
+	private List<String> sharedUsersId = new ArrayList<>();
 	
-	
+	public Artifact() {
+		super();
+	}
+		
 	public String getId() {
 		return id;
 	}
@@ -162,12 +158,17 @@ public class Artifact {
 	public void setRelations(List<Relation> relations) {
 		this.relations = relations;
 	}
-	public List<ProjectInfo> getProjects() {
-		return projects;
+	public List<String> getProjectsId() {
+		return projectsId;
 	}
-	public void setProjects(List<ProjectInfo> projects) {
-		this.projects = projects;
+	public void setProjectsId(List<String> projectsId) {
+		this.projectsId = projectsId;
 	}
-	
+	public List<String> getSharedUsersId() {
+		return sharedUsersId;
+	}
+	public void setSharedUsersId(List<String> sharedUsersId) {
+		this.sharedUsersId = sharedUsersId;
+	}
 		
 }

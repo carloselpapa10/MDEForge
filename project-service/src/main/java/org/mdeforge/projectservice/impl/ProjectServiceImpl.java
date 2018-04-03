@@ -13,6 +13,18 @@ import org.springframework.stereotype.Component;
 public class ProjectServiceImpl implements ProjectService{
 
 	@Autowired
-	private ProjectRepository projectRepository; 
+	private ProjectRepository projectRepository;
+
+	@Override
+	public Project findById(String id, String ownerId) throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Project findOne(String id) throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
+	} 
 	
 	}

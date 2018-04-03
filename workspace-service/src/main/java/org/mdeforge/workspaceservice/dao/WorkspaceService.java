@@ -8,8 +8,12 @@ import org.mdeforge.workspaceservice.model.Workspace;
 
 public interface WorkspaceService {
 
-	/*
+	
 	public Workspace create(Workspace workspace) throws BusinessException;
+	
+	
+	public List<Workspace> findAll() throws BusinessException;
+	/*
 	public Workspace update(Workspace workspace) throws BusinessException;
 	public void delete(Workspace workspace) throws BusinessException;
 	public void delete(String id, UserInfo user) throws BusinessException;
@@ -20,7 +24,6 @@ public interface WorkspaceService {
 	
 	public Workspace findByName(String name) throws BusinessException;
 	public Workspace findById(String id, UserInfo user) throws BusinessException;
-	public List<Workspace> findAll() throws BusinessException;	
 	public Workspace findOne(String id);
 	public Workspace findOneWithUser(String id, String idUser) throws BusinessException;
 	public List<ProjectInfo> findProjectInWorkspace(String id, UserInfo user);

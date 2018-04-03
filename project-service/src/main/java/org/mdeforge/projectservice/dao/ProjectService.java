@@ -7,6 +7,9 @@ import org.mdeforge.servicemodel.common.BusinessException;
 
 public interface ProjectService {
 
+	public Project findById(String id, String ownerId) throws BusinessException;
+	public Project findOne(String id) throws BusinessException;
+	
 	/*public Project create(Project project, UserInfo userId) throws BusinessException;
 	public Project update(Project project, UserInfo idUser) throws BusinessException;
 	public void delete(Project project, UserInfo user) throws BusinessException;

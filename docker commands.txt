@@ -1,0 +1,107 @@
+docker run -d \
+    --name order-service \
+    -p 5000:8080 \
+    -e SPRING_DATASOURCE_URL=jdbc:mysql://${DOCKER_HOST_IP}/eventuate \
+    -e SPRING_DATASOURCE_USERNAME=mysqluser \
+    -e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+    -e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+    -e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=${DOCKER_HOST_IP}:9092 \
+    -e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=${DOCKER_HOST_IP}:2181  \
+    -e MONGODB=${DOCKER_HOST_IP}:27017/orderdb \
+    carloselpapa10/order-service
+
+mvn clean package
+
+mvn -f customer-service/pom.xml docker:build
+mvn -f invoice-service/pom.xml docker:build
+mvn -f order-service/pom.xml docker:build
+mvn -f order-view-service/pom.xml docker:build
+
+docker-compose up
+
+
+docker run -d \
+	--name artifact-service \
+        --network=my-net \
+	-p 5005:8080 \
+	--link mysql \
+	--link kafka \
+	--link zookeeper \
+        --link cdcservice \
+        -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql/eventuate \
+	-e SPRING_DATASOURCE_USERNAME=mysqluser \
+	-e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+	-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+        -e SPRING_DATASOURCE_TIMEOUT=10000 \
+	-e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 \
+	-e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=zookeeper:2181 \
+	-e MONGODB=mongodb:27017/artifactdb \
+	mdeforge/artifact-service
+
+docker run -d \
+	--name project-service \
+        --network=my-net \
+	-p 5004:8080 \
+	--link mysql \
+	--link kafka \
+	--link zookeeper \
+        --link cdcservice \
+        -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql/eventuate \
+	-e SPRING_DATASOURCE_USERNAME=mysqluser \
+	-e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+	-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+        -e SPRING_DATASOURCE_TIMEOUT=10000 \
+	-e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 \
+	-e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=zookeeper:2181 \
+	-e MONGODB=mongodb:27017/projectdb \
+	mdeforge/project-service
+
+docker run -d \
+	--name user-service \
+        --network=my-net \
+	-p 5003:8080 \
+	--link mysql \
+	--link kafka \
+	--link zookeeper \
+        --link cdcservice \
+        -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql/eventuate \
+	-e SPRING_DATASOURCE_USERNAME=mysqluser \
+	-e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+	-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+        -e SPRING_DATASOURCE_TIMEOUT=10000 \
+	-e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 \
+	-e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=zookeeper:2181 \
+	-e MONGODB=mongodb:27017/userdb \
+	mdeforge/user-service
+
+docker run -d \
+	--name workspace-service \
+        --network=my-net \
+	-p 5002:8080 \
+	--link mysql \
+	--link kafka \
+	--link zookeeper \
+        --link cdcservice \
+        -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql/eventuate \
+	-e SPRING_DATASOURCE_USERNAME=mysqluser \
+	-e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+	-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+        -e SPRING_DATASOURCE_TIMEOUT=10000 \
+	-e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 \
+	-e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=zookeeper:2181 \
+	-e MONGODB=mongodb:27017/workspacedb \
+	mdeforge/workspace-service
+
+
+      
+
+      
+      
+      
+      
+
+
+
+
+
+
