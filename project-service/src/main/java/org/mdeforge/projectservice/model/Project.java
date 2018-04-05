@@ -12,8 +12,8 @@ public class Project {
 	private Date createdDate;
 	private String Description;
 	private Date modifiedDate;	
-	private List<String> artifactsId = new ArrayList<>();
 	private String ownerId;
+	private List<String> artifactsId = new ArrayList<>();
 	private List<String> usersId = new ArrayList<>();
 	private List<String> workspacesId = new ArrayList<>();
 	
