@@ -10,7 +10,22 @@ import io.eventuate.tram.messaging.consumer.MessageConsumer;
 public class EventHandlersConfiguration {
 
 	@Bean
+	public DomainEventDispatcher artifactHistoryDomainEventDispatcher(ArtifactHistoryEventHandlers artifactHistoryEventHandlers, MessageConsumer messageConsumer) {
+		return new DomainEventDispatcher("artifactHistoryDomainEventDispatcher", artifactHistoryEventHandlers.domainEventHandlers(), messageConsumer);
+	}
+	
+	@Bean
+	public DomainEventDispatcher projectHistoryDomainEventDispatcher(ProjectHistoryEventHandlers projectHistoryEventHandlers, MessageConsumer messageConsumer) {
+		return new DomainEventDispatcher("projectHistoryDomainEventDispatcher", projectHistoryEventHandlers.domainEventHandlers(), messageConsumer);
+	}
+	
+	@Bean
 	public DomainEventDispatcher userHistoryDomainEventDispatcher(UserHistoryEventHandlers userHistoryEventHandlers, MessageConsumer messageConsumer) {
 	    return new DomainEventDispatcher("userHistoryDomainEventDispatcher", userHistoryEventHandlers.domainEventHandlers(), messageConsumer);
+	}
+	
+	@Bean
+	public DomainEventDispatcher workspaceHistoryDomainEventDispatcher(WorkspaceHistoryEventHandlers workspaceHistoryEventHandlers, MessageConsumer messageConsumer) {
+		return new DomainEventDispatcher("workspaceHistoryDomainEventDispatcher", workspaceHistoryEventHandlers.domainEventHandlers(), messageConsumer);
 	}
 }

@@ -12,8 +12,8 @@ public class Workspace {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;
-	private String description;
 	private String name;
+	private String description;	
 	private String ownerId;
 	private boolean completed;
 	private List<String> projectsId = new ArrayList<>();
@@ -21,6 +21,16 @@ public class Workspace {
 	
 	public Workspace() {
 		super();
+	}
+	
+	public Workspace(String name, String description, String ownerId, List<String> projectsId,
+			List<String> artifactsId) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.ownerId = ownerId;
+		this.projectsId = projectsId;
+		this.artifactsId = artifactsId;
 	}
 
 	public String getId() {

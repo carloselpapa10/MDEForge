@@ -39,7 +39,7 @@ public class WorkspaceServiceImpl implements WorkspaceService{
 	public Workspace create(Workspace workspace) throws BusinessException {
 		log.info("create - WorkspaceServiceImpl "+workspace);
 		
-		WorkspaceInfo workspaceInfo = new WorkspaceInfo(workspace.getId(),workspace.getDescription(), workspace.getName(),
+		WorkspaceInfo workspaceInfo = new WorkspaceInfo(workspace.getDescription(), workspace.getName(),
 														workspace.getOwnerId(),workspace.isCompleted(),workspace.getProjectsId(),
 														workspace.getArtifactsId());
 		
@@ -47,6 +47,7 @@ public class WorkspaceServiceImpl implements WorkspaceService{
 		ResultWithDomainEvents<Workspace, WorkspaceDomainEvent> workspaceAndEvents = new ResultWithDomainEvents<>(workspace, events);
 		
 		workspace = workspaceRepository.save(workspace);
+		
 		workspaceAggregateEventPublisher.publish(workspace, workspaceAndEvents.events);
 		
 		CreateWorkspaceSagaData data = new CreateWorkspaceSagaData(workspace.getId(),workspace.getOwnerId(),workspace.getProjectsId(),workspace.getArtifactsId());

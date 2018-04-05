@@ -1,31 +1,23 @@
-package org.mdeforge.servicemodel.workspace.api.info;
+package org.mdeforge.mdeforgeviewservice.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WorkspaceInfo {
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection="Workspaces")
+public class Workspace {
 
 	private String id;
-	private String description;
 	private String name;
-	private String ownerId;
+	private String description;	
+	private User owner;
 	private boolean completed;
 	private List<String> projectsId = new ArrayList<>();
 	private List<String> artifactsId = new ArrayList<>();
 	
-	public WorkspaceInfo() {
+	public Workspace() {
 		super();
-	}
-	
-	public WorkspaceInfo(String description, String name, String ownerId, boolean completed,
-			List<String> projectsId, List<String> artifactsId) {
-		super();
-		this.description = description;
-		this.name = name;
-		this.ownerId = ownerId;
-		this.completed = completed;
-		this.projectsId = projectsId;
-		this.artifactsId = artifactsId;
 	}
 
 	public String getId() {
@@ -36,14 +28,6 @@ public class WorkspaceInfo {
 		this.id = id;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -52,12 +36,20 @@ public class WorkspaceInfo {
 		this.name = name;
 	}
 
-	public String getOwnerId() {
-		return ownerId;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 
 	public boolean isCompleted() {
