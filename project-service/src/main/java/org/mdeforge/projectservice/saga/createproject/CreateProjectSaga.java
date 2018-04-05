@@ -25,7 +25,8 @@ public class CreateProjectSaga implements SimpleSaga<CreateProjectSagaData>{
 	
 	private SagaDefinition<CreateProjectSagaData> sagaDefinition;
 	
-	public CreateProjectSaga(ProjectServiceProxy projectService, ArtifactServiceProxy artifactService, UserServiceProxy userService, WorkspaceServiceProxy workspaceService) {
+	public CreateProjectSaga(ProjectServiceProxy projectService, ArtifactServiceProxy artifactService, UserServiceProxy userService, 
+						WorkspaceServiceProxy workspaceService) {
 		this.sagaDefinition =
 				step()
 					.withCompensation(projectService.reject, this::makeRejectProjectCommand)
