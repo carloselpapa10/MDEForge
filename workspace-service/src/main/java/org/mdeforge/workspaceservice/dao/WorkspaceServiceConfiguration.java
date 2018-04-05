@@ -2,6 +2,10 @@ package org.mdeforge.workspaceservice.dao;
 
 import org.mdeforge.workspaceservice.saga.createworkspace.CreateWorkspaceSaga;
 import org.mdeforge.workspaceservice.saga.createworkspace.CreateWorkspaceSagaData;
+import org.mdeforge.workspaceservice.saga.deleteworkspace.DeleteWorkspaceSaga;
+import org.mdeforge.workspaceservice.saga.deleteworkspace.DeleteWorkspaceSagaData;
+import org.mdeforge.workspaceservice.saga.updateworkspace.UpdateWorkspaceSaga;
+import org.mdeforge.workspaceservice.saga.updateworkspace.UpdateWorkspaceSagaData;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -26,4 +30,15 @@ public class WorkspaceServiceConfiguration {
 	public SagaManager<CreateWorkspaceSagaData> createWorkspaceSagaManager(CreateWorkspaceSaga saga){
 		return new SagaManagerImpl<>(saga);
 	}
+	
+	@Bean
+	public SagaManager<UpdateWorkspaceSagaData> updateWorkspaceSagaManager(UpdateWorkspaceSaga saga){
+		return new SagaManagerImpl<>(saga);
+	}
+	
+	@Bean
+	public SagaManager<DeleteWorkspaceSagaData> deleteWorkspaceSagaManager(DeleteWorkspaceSaga saga){
+		return new SagaManagerImpl<>(saga);
+	}
+	
 }
