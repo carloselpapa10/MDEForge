@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService{
 		
 		List<RoleInfo> roles = new ArrayList<>();
 		roles.add(roleInfo);
-		UserInfo userInfo = new UserInfo(user.getId(),user.getFirstname(),user.getLastname(),user.getEmail(),user.getUsername(),user.getImage(),roles);
+		UserInfo userInfo = new UserInfo(user.getFirstname(),user.getLastname(),user.getEmail(),user.getUsername(),user.isEnabled(),user.getPassword(),roles);
 		
 		List<UserDomainEvent> events = singletonList(new UserCreatedEvent(userInfo));
 		ResultWithDomainEvents<User,UserDomainEvent> userAndEvents = new ResultWithDomainEvents<>(user, events);

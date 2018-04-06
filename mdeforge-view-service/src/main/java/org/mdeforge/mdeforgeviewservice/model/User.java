@@ -2,10 +2,6 @@ package org.mdeforge.mdeforgeviewservice.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,38 +9,38 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;
 	private String firstname;
 	private String lastname;
 	private String email;
 	private String username;
 	private String image;
-	private boolean enabled;
+	private boolean enabled=true;
 	private String password;
 	private List<Role> roles = new ArrayList<>();
 	
-	/*	
-	private List<ArtifactInfo> owner = new ArrayList<>();
-	private List<ProjectInfo> sharedProject = new ArrayList<>();
-	private List<ArtifactInfo> sharedArtifact = new ArrayList<>();
-	private List<WorkspaceInfo> workspaces = new ArrayList<>();
-	*/
+	/*
+	private List<Artifact> owner = new ArrayList<>();
+	private List<Project> sharedProject = new ArrayList<>();
+	private List<Artifact> sharedArtifact = new ArrayList<>();
+	private List<Workspace> workspaces = new ArrayList<>();
+	 */
 	
 	public User() {}	
-	
-	public User(String firstname, String lastname, String email, String username, String image,
+		
+	public User(String id, String firstname, String lastname, String email, String username, boolean enabled,
 			String password) {
 		super();
+		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
 		this.username = username;
-		this.image = image;
+		this.enabled = enabled;
 		this.password = password;
-		this.enabled = true;
 	}
-	
+
+
 	public void setId(String id) {
 		this.id = id;
 	}

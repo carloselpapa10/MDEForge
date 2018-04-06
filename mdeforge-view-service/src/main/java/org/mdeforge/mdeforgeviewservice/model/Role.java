@@ -6,19 +6,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection="Role")
 public class Role {
 
-	public static final Role ADMIN;
-	public static final Role USER;
-	static {
-		ADMIN = new Role();
-		ADMIN.setName("admin");
-
-		USER = new Role();
-		USER.setName("user");
-		
-	}
 	@Id
 	private String id;
 	private String name;	
+	
+	public Role() {}
+	
+	public Role(String id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
 
 	public String getName() {
 		return name;

@@ -20,6 +20,18 @@ public class UserInfo {
 		super();
 	}
 		
+	public UserInfo(String firstname, String lastname, String email, String username, boolean enabled, String password,
+			List<RoleInfo> roles) {
+		super();
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+		this.username = username;
+		this.enabled = enabled;
+		this.password = password;
+		this.roles = roles;
+	}
+
 	public UserInfo(String userId, String firstname, String lastname, String email, String username, String image, 
 			List<RoleInfo> roles) {
 		super();
