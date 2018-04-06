@@ -7,6 +7,8 @@ import org.mdeforge.mdeforgeviewservice.impl.UserServiceImpl;
 import org.mdeforge.mdeforgeviewservice.model.Role;
 import org.mdeforge.mdeforgeviewservice.model.User;
 import org.mdeforge.servicemodel.user.api.events.UserCreatedEvent;
+import org.mdeforge.servicemodel.user.api.events.UserDeletedEvent;
+import org.mdeforge.servicemodel.user.api.events.UserUpdatedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class UserHistoryEventHandlers {
 		return DomainEventHandlersBuilder
 				.forAggregateType("org.mdeforge.userservice.model.User")
 				.onEvent(UserCreatedEvent.class, this::handleUserCreatedEvent)
+				.onEvent(UserUpdatedEvent.class, this::handleUserUpdatedEvent)
+				.onEvent(UserDeletedEvent.class, this::handleUserDeletedEvent)
 				.build();
 		
 	}
@@ -52,5 +56,13 @@ public class UserHistoryEventHandlers {
 		
 		user.setRoles(roleList);		
 		userServiceImpl.create(user);
+	}
+	
+	public void handleUserUpdatedEvent(DomainEventEnvelope<UserUpdatedEvent> dee) {
+		log.info("handleUserUpdatedEvent() - UserHistoryEventHandlers - mdeforge-view-service");
+	}
+	
+	public void handleUserDeletedEvent(DomainEventEnvelope<UserDeletedEvent> dee) {
+		log.info("handleUserDeletedEvent() - UserHistoryEventHandlers - mdeforge-view-service");
 	}
 }
