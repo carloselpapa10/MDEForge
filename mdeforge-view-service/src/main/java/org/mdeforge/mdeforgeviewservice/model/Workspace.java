@@ -12,14 +12,21 @@ public class Workspace {
 	private String name;
 	private String description;	
 	private User owner;
-	private boolean completed;
-	private List<String> projectsId = new ArrayList<>();
-	private List<String> artifactsId = new ArrayList<>();
+	private List<Project> projectsId = new ArrayList<>();
+	private List<Artifact> artifactsId = new ArrayList<>();
 	
 	public Workspace() {
 		super();
 	}
-
+	
+	public Workspace(String id, String name, String description, User owner) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.owner = owner;
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -52,27 +59,19 @@ public class Workspace {
 		this.owner = owner;
 	}
 
-	public boolean isCompleted() {
-		return completed;
-	}
-
-	public void setCompleted(boolean completed) {
-		this.completed = completed;
-	}
-
-	public List<String> getProjectsId() {
+	public List<Project> getProjectsId() {
 		return projectsId;
 	}
 
-	public void setProjectsId(List<String> projectsId) {
+	public void setProjectsId(List<Project> projectsId) {
 		this.projectsId = projectsId;
 	}
 
-	public List<String> getArtifactsId() {
+	public List<Artifact> getArtifactsId() {
 		return artifactsId;
 	}
 
-	public void setArtifactsId(List<String> artifactsId) {
+	public void setArtifactsId(List<Artifact> artifactsId) {
 		this.artifactsId = artifactsId;
 	}
 	

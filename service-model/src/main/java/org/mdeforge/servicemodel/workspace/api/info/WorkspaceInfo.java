@@ -9,7 +9,6 @@ public class WorkspaceInfo {
 	private String description;
 	private String name;
 	private String ownerId;
-	private boolean completed;
 	private List<String> projectsId = new ArrayList<>();
 	private List<String> artifactsId = new ArrayList<>();
 	
@@ -17,13 +16,23 @@ public class WorkspaceInfo {
 		super();
 	}
 	
-	public WorkspaceInfo(String description, String name, String ownerId, boolean completed,
+	public WorkspaceInfo(String description, String name, String ownerId,
 			List<String> projectsId, List<String> artifactsId) {
 		super();
 		this.description = description;
 		this.name = name;
 		this.ownerId = ownerId;
-		this.completed = completed;
+		this.projectsId = projectsId;
+		this.artifactsId = artifactsId;
+	}
+	
+	public WorkspaceInfo(String id, String description, String name, String ownerId, List<String> projectsId,
+			List<String> artifactsId) {
+		super();
+		this.id = id;
+		this.description = description;
+		this.name = name;
+		this.ownerId = ownerId;
 		this.projectsId = projectsId;
 		this.artifactsId = artifactsId;
 	}
@@ -58,14 +67,6 @@ public class WorkspaceInfo {
 
 	public void setOwnerId(String ownerId) {
 		this.ownerId = ownerId;
-	}
-
-	public boolean isCompleted() {
-		return completed;
-	}
-
-	public void setCompleted(boolean completed) {
-		this.completed = completed;
 	}
 
 	public List<String> getProjectsId() {

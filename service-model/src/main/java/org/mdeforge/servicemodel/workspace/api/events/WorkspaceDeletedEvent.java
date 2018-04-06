@@ -1,12 +1,12 @@
 package org.mdeforge.servicemodel.workspace.api.events;
 
-public class WorkspaceRejectedEvent implements WorkspaceDomainEvent{
+public class WorkspaceDeletedEvent implements WorkspaceDomainEvent{
 
 	private String workspaceId;
 
-	public WorkspaceRejectedEvent() {}
+	public WorkspaceDeletedEvent() {}
 	
-	public WorkspaceRejectedEvent(String workspaceId) {
+	public WorkspaceDeletedEvent(String workspaceId) {
 		super();
 		this.workspaceId = workspaceId;
 	}
