@@ -1,0 +1,138 @@
+pipeline {
+	agent none    
+stages {	
+        stage('Building') {
+		agent{
+			docker {
+			    image 'maven:3-alpine'
+			    args '-v $HOME/.m2:/root/.m2'
+			}
+		}
+		steps{
+			sh'mvn clean package -s settings.xml docker:build'
+		}
+	}
+	stage('Testing') {
+		agent any
+		steps {
+			//sh 'mvn test'
+			echo 'Testing Here'
+		}
+	}	
+	stage('Deployment') {
+		parallel {
+			stage('Artifact Service') {
+				agent any
+				steps {
+					sh 'docker run -d \
+					--name artifact-service \
+					--network=my-net \
+					-p 5005:8080 \
+					--link mysql \
+					--link kafka \
+					--link zookeeper \
+					--link cdcservice \
+					-e SPRING_DATASOURCE_URL=jdbc:mysql://mysql/eventuate \
+					-e SPRING_DATASOURCE_USERNAME=mysqluser \
+					-e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+					-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+					-e SPRING_DATASOURCE_TIMEOUT=10000 \
+					-e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 \
+					-e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=zookeeper:2181 \
+					-e MONGODB=mongodb:27017/artifactdb \
+					mdeforge/artifact-service'
+				}
+			}
+			stage('Project Service') {
+				agent any
+				steps {
+					sh 'docker run -d \
+					--name project-service \
+					--network=my-net \
+					-p 5004:8080 \
+					--link mysql \
+					--link kafka \
+					--link zookeeper \
+					--link cdcservice \
+					-e SPRING_DATASOURCE_URL=jdbc:mysql://mysql/eventuate \
+					-e SPRING_DATASOURCE_USERNAME=mysqluser \
+					-e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+					-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+					-e SPRING_DATASOURCE_TIMEOUT=10000 \
+					-e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 \
+					-e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=zookeeper:2181 \
+					-e MONGODB=mongodb:27017/projectdb \
+					mdeforge/project-service'
+				}
+			}
+			stage('User Service') {
+				agent any
+				steps {
+					sh 'docker run -d \
+					--name user-service \
+					--network=my-net \
+					-p 5003:8080 \
+					--link mysql \
+					--link kafka \
+					--link zookeeper \
+					--link cdcservice \
+					-e SPRING_DATASOURCE_URL=jdbc:mysql://mysql/eventuate \
+					-e SPRING_DATASOURCE_USERNAME=mysqluser \
+					-e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+					-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+					-e SPRING_DATASOURCE_TIMEOUT=10000 \
+					-e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 \
+					-e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=zookeeper:2181 \
+					-e MONGODB=mongodb:27017/userdb \
+					mdeforge/user-service'
+				}
+			}
+			stage('Workspace Service') {
+				agent any
+				steps {
+					sh 'docker run -d \
+					--name workspace-service \
+					--network=my-net \
+					-p 5002:8080 \
+					--link mysql \
+					--link kafka \
+					--link zookeeper \
+					--link cdcservice \
+					-e SPRING_DATASOURCE_URL=jdbc:mysql://mysql/eventuate \
+					-e SPRING_DATASOURCE_USERNAME=mysqluser \
+					-e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+					-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+					-e SPRING_DATASOURCE_TIMEOUT=10000 \
+					-e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 \
+					-e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=zookeeper:2181 \
+					-e MONGODB=mongodb:27017/workspacedb \
+					mdeforge/workspace-service'
+				}
+			}
+			stage('MDEForge View Service') {
+				agent any
+				steps {
+					sh 'docker run -d \
+					--name mdeforge-view-service \
+					--network=my-net \
+					-p 5001:8080 \
+					--link mysql \
+					--link kafka \
+					--link zookeeper \
+					--link cdcservice \
+					-e SPRING_DATASOURCE_URL=jdbc:mysql://mysql/eventuate \
+					-e SPRING_DATASOURCE_USERNAME=mysqluser \
+					-e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+					-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+					-e SPRING_DATASOURCE_TIMEOUT=10000 \
+					-e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 \
+					-e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=zookeeper:2181 \
+					-e MONGODB=mongodb:27017/mdeforgedb \
+					mdeforge/mdeforge-view-service'
+				}
+			}
+		}
+	}
+	
+  }
+}
