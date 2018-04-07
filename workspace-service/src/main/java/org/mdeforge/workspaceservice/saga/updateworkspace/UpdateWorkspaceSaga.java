@@ -24,8 +24,9 @@ public class UpdateWorkspaceSaga implements SimpleSaga<UpdateWorkspaceSagaData>{
 	
 	private SagaDefinition<UpdateWorkspaceSagaData> sagaDefinition;
 	
+	
 	public UpdateWorkspaceSaga(WorkspaceServiceProxy workspaceService, UserServiceProxy userService, ProjectServiceProxy projectService,
-								ArtifactServiceProxy artifactService) {
+									ArtifactServiceProxy artifactService) {	
 		
 		this.sagaDefinition =
 				step()
@@ -44,7 +45,7 @@ public class UpdateWorkspaceSaga implements SimpleSaga<UpdateWorkspaceSagaData>{
 	public SagaDefinition<UpdateWorkspaceSagaData> getSagaDefinition() {
 		return sagaDefinition;
 	}	
-	
+		
 	private ValidateUserByWorkspace makeValidateUserByWorkspace(UpdateWorkspaceSagaData data) {
 		log.info("ValidateUserByWorkspace() - UpdateWorkspaceSaga");	
 		return new ValidateUserByWorkspace(data.getUserId());

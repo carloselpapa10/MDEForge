@@ -15,10 +15,10 @@ import io.eventuate.tram.commands.common.DefaultChannelMapping;
 import io.eventuate.tram.events.publisher.TramEventsPublisherConfiguration;
 import io.eventuate.tram.sagas.orchestration.SagaManager;
 import io.eventuate.tram.sagas.orchestration.SagaManagerImpl;
-import io.eventuate.tram.sagas.participant.SagaParticipantConfiguration;
+import io.eventuate.tram.sagas.orchestration.SagaOrchestratorConfiguration;
 
 @Configuration
-@Import({ SagaParticipantConfiguration.class, TramEventsPublisherConfiguration.class })
+@Import({TramEventsPublisherConfiguration.class, SagaOrchestratorConfiguration.class })
 public class ProjectServiceConfiguration {
 
 	@Bean

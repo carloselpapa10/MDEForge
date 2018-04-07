@@ -10,12 +10,13 @@ docker run -d \
     -e MONGODB=${DOCKER_HOST_IP}:27017/orderdb \
     carloselpapa10/order-service
 
-mvn clean package
+mvn clean package docker:build
 
 mvn -f artifact-service/pom.xml docker:build
 mvn -f project-service/pom.xml docker:build
 mvn -f user-service/pom.xml docker:build
 mvn -f workspace-service/pom.xml docker:build
+mvn -f mdeforge-view-service/pom.xml docker:build
 
 docker-compose up
 
@@ -146,10 +147,24 @@ docker run -d \
 	-e MONGODB=mongodb:27017/workspacedb \
 	mdeforge/workspace-service
 
-
-      
-
-      
+docker run -d \
+	--name mdeforge-view-service \
+        --network=my-net \
+	-p 5001:8080 \
+	--link mysql \
+	--link kafka \
+	--link zookeeper \
+        --link cdcservice \
+        -e SPRING_DATASOURCE_URL=jdbc:mysql://mysql/eventuate \
+	-e SPRING_DATASOURCE_USERNAME=mysqluser \
+	-e SPRING_DATASOURCE_PASSWORD=mysqlpw \
+	-e SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.jdbc.Driver \
+        -e SPRING_DATASOURCE_TIMEOUT=10000 \
+	-e EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS=kafka:9092 \
+	-e EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING=zookeeper:2181 \
+	-e MONGODB=mongodb:27017/mdeforgedb \
+	mdeforge/mdeforge-view-service
+          
       
       
       

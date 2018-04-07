@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 public class WorkspaceController {
@@ -24,6 +27,18 @@ public class WorkspaceController {
 														request.getOwnerId(),request.getProjectsId(),request.getArtifactsId()));
 		
 		return new CreateWorkspaceResponse(workspace.getId());
+	}
+	
+	@PostMapping("/update/workspace/")
+	public ResponseEntity<Workspace> updateWorkspace(@RequestBody Workspace workspace){
+		Workspace modifiedWorkspace =workspaceServiceImpl.update(workspace);
+		return modifiedWorkspace != null ? ResponseEntity.ok(modifiedWorkspace) : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+	}
+	
+	@GetMapping("/workspaces/{workspaceId}")
+	public ResponseEntity<Workspace> findWorkspace(@PathVariable String workspaceId) {
+		Workspace workspace = workspaceServiceImpl.findOne(workspaceId);
+		return workspace != null ? ResponseEntity.ok(workspace) : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 	}
 	
 	@GetMapping("/workspaces")

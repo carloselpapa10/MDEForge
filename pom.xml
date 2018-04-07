@@ -13,7 +13,8 @@
 	  <module>artifact-service</module>
           <module>project-service</module>
 	  <module>user-service</module>
-	  <module>workspace-service</module>	  
+	  <module>workspace-service</module>
+	  <module>mdeforge-view-service</module>	  
   </modules>
 	
 <build>

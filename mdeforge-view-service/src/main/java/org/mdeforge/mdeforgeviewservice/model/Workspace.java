@@ -14,6 +14,7 @@ public class Workspace {
 	private User owner;
 	private List<Project> projectsId = new ArrayList<>();
 	private List<Artifact> artifactsId = new ArrayList<>();
+	private boolean completed;
 	
 	public Workspace() {
 		super();
@@ -73,6 +74,14 @@ public class Workspace {
 
 	public void setArtifactsId(List<Artifact> artifactsId) {
 		this.artifactsId = artifactsId;
+	}
+
+	public boolean isCompleted() {
+		return completed;
+	}
+
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
 	}
 	
 }

@@ -1,0 +1,4 @@
+MDEForge Doubts
+
+1. Why workspace entity contains artifact list?.
+2. Why we aren't respect the relationship presented on the class diagram?.

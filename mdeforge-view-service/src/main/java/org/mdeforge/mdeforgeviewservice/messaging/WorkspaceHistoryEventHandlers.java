@@ -6,6 +6,7 @@ import org.mdeforge.mdeforgeviewservice.impl.UserServiceImpl;
 import org.mdeforge.mdeforgeviewservice.impl.WorkspaceServiceImpl;
 import org.mdeforge.mdeforgeviewservice.model.User;
 import org.mdeforge.mdeforgeviewservice.model.Workspace;
+import org.mdeforge.mdeforgeviewservice.repository.WorkspaceRepository;
 import org.mdeforge.servicemodel.workspace.api.events.WorkspaceCompletedEvent;
 import org.mdeforge.servicemodel.workspace.api.events.WorkspaceCreatedEvent;
 import org.mdeforge.servicemodel.workspace.api.events.WorkspaceRejectedEvent;
@@ -27,6 +28,9 @@ public class WorkspaceHistoryEventHandlers {
 	
 	@Autowired
 	private UserServiceImpl userServiceImpl;
+	
+	@Autowired
+	private WorkspaceRepository workspaceRepository;
 	
 	public DomainEventHandlers domainEventHandlers() {
 		return DomainEventHandlersBuilder
@@ -57,6 +61,11 @@ public class WorkspaceHistoryEventHandlers {
 	
 	private void handleWorkspaceCompletedEvent(DomainEventEnvelope<WorkspaceCompletedEvent> dee) {
 		log.info("handleWorkspaceCompletedEvent() - WorkspaceHistoryEventHandlers");
+		
+		Workspace workspace = workspaceServiceImpl.findOne(dee.getAggregateId());
+		workspace.setCompleted(true);
+		
+		workspaceRepository.save(workspace);
 	}
 	
 	private void handleWorkspaceRejectedEvent(DomainEventEnvelope<WorkspaceRejectedEvent> dee) {

@@ -80,7 +80,8 @@ public class WorkspaceServiceImpl implements WorkspaceService{
 		UpdateWorkspaceSagaData data = new UpdateWorkspaceSagaData(workspace.getId(), modifiedWorkspace.getName(), 
 										modifiedWorkspace.getDescription(), modifiedWorkspace.getOwnerId(), 
 										modifiedWorkspace.getProjectsId(), modifiedWorkspace.getArtifactsId());
-		updateWorkspaceSagaManager.create(data, Workspace.class, workspace.getId());
+		
+		updateWorkspaceSagaManager.create(data);
 		
 		return modifiedWorkspace;
 	}
