@@ -1,0 +1,36 @@
+pipeline {
+	agent none    
+stages {
+	stage('Remove Artifact Service') {
+		agent any
+		steps {
+			sh 'docker rm artifact-service --force'
+		}
+	}
+	stage('Remove Project Service') {
+		agent any
+		steps {
+			sh 'docker rm project-service --force'
+		}
+	}
+	stage('Remove User Service') {
+		agent any
+		steps {
+			sh 'docker rm user-service --force'
+		}
+	}
+	stage('Remove Workspace Service') {
+		agent any
+		steps {
+			sh 'docker rm workspace-service --force'
+		}
+	}
+	stage('Remove MDEForge View Service') {
+		agent any
+		steps {
+			sh 'docker rm mdeforge-view-service --force'
+		}
+	}
+	
+  }
+}

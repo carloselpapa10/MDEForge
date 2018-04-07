@@ -1,0 +1,36 @@
+pipeline {
+	agent none    
+stages {
+	stage('Stop Artifact Service') {
+		agent any
+		steps {
+			sh 'docker stop artifact-service'
+		}
+	}
+	stage('Stop Project Service') {
+		agent any
+		steps {
+			sh 'docker stop project-service'
+		}
+	}
+	stage('Stop User Service') {
+		agent any
+		steps {
+			sh 'docker stop user-service'
+		}
+	}
+	stage('Stop Workspace Service') {
+		agent any
+		steps {
+			sh 'docker stop workspace-service'
+		}
+	}
+	stage('Stop MDEForge View Service') {
+		agent any
+		steps {
+			sh 'docker stop mdeforge-view-service'
+		}
+	}
+	
+  }
+}

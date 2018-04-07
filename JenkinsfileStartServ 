@@ -1,0 +1,36 @@
+pipeline {
+	agent none    
+stages {
+	stage('Start Artifact Service') {
+		agent any
+		steps {
+			sh 'docker start artifact-service'
+		}
+	}
+	stage('Start Project Service') {
+		agent any
+		steps {
+			sh 'docker start project-service'
+		}
+	}
+	stage('Start User Service') {
+		agent any
+		steps {
+			sh 'docker start user-service'
+		}
+	}
+	stage('Start Workspace Service') {
+		agent any
+		steps {
+			sh 'docker start workspace-service'
+		}
+	}
+	stage('Start MDEForge View Service') {
+		agent any
+		steps {
+			sh 'docker start mdeforge-view-service'
+		}
+	}
+	
+  }
+}
