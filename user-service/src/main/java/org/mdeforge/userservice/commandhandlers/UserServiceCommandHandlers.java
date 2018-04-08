@@ -1,6 +1,9 @@
 package org.mdeforge.userservice.commandhandlers;
 
 import org.mdeforge.servicemodel.common.Channels;
+import org.mdeforge.servicemodel.user.api.command.CompensateShareProjectToUserList;
+import org.mdeforge.servicemodel.user.api.command.ShareProjectToUserList;
+import org.mdeforge.servicemodel.user.api.command.ValidateUserByProject;
 import org.mdeforge.servicemodel.user.api.command.ValidateUserByWorkspace;
 import org.mdeforge.userservice.impl.UserServiceImpl;
 import org.mdeforge.userservice.model.User;
@@ -26,6 +29,9 @@ public class UserServiceCommandHandlers {
 		return SagaCommandHandlersBuilder
 				.fromChannel(Channels.USER_SERVICE)
 				.onMessage(ValidateUserByWorkspace.class, this::handleValidateUserByWorkspace)
+				.onMessage(ValidateUserByProject.class, this::handleValidateUserByProject)
+				.onMessage(ShareProjectToUserList.class, this::handleShareProjectToUserList)
+				.onMessage(CompensateShareProjectToUserList.class, this::handleCompensateShareProjectToUserList)
 				.build();
 	}
 	
@@ -39,5 +45,20 @@ public class UserServiceCommandHandlers {
 		}
 		
 		return withFailure();
+	}
+	
+	private Message handleValidateUserByProject(CommandMessage<ValidateUserByProject> cm) {
+		log.info("handleValidateUserByProject() - UserServiceCommandHandlers");
+		return withSuccess();
+	}
+	
+	private Message handleShareProjectToUserList(CommandMessage<ShareProjectToUserList> cm) {
+		log.info("handleShareProjectToUserList() - UserServiceCommandHandlers");
+		return withSuccess();
+	}
+	
+	private Message handleCompensateShareProjectToUserList(CommandMessage<CompensateShareProjectToUserList> cm) {
+		log.info("handleCompensateShareProjectToUserList() - UserServiceCommandHandlers");
+		return withSuccess();
 	}
 }
