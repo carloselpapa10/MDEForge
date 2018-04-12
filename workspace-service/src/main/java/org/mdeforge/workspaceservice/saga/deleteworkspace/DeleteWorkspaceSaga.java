@@ -4,8 +4,6 @@ import org.springframework.stereotype.Component;
 
 import io.eventuate.tram.sagas.orchestration.SagaDefinition;
 import io.eventuate.tram.sagas.simpledsl.SimpleSaga;
-
-import org.mdeforge.workspaceservice.proxy.ArtifactServiceProxy;
 import org.mdeforge.workspaceservice.proxy.ProjectServiceProxy;
 import org.mdeforge.workspaceservice.proxy.UserServiceProxy;
 import org.mdeforge.workspaceservice.proxy.WorkspaceServiceProxy;
@@ -19,8 +17,7 @@ public class DeleteWorkspaceSaga implements SimpleSaga<DeleteWorkspaceSagaData>{
 	
 	private SagaDefinition<DeleteWorkspaceSagaData> sagaDefinition;
 	
-	public DeleteWorkspaceSaga(WorkspaceServiceProxy workspaceService, UserServiceProxy userService, ProjectServiceProxy projectService,
-			ArtifactServiceProxy artifactService) {
+	public DeleteWorkspaceSaga(WorkspaceServiceProxy workspaceService, UserServiceProxy userService, ProjectServiceProxy projectService) {
 		
 		/*saga definition*/
 	}

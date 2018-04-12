@@ -9,7 +9,6 @@ public class CreateWorkspaceRequest {
 	private String description;
 	private String ownerId;
 	private List<String> projectsId = new ArrayList<>();
-	private List<String> artifactsId = new ArrayList<>();
 	
 	public CreateWorkspaceRequest() {}
 	
@@ -37,12 +36,4 @@ public class CreateWorkspaceRequest {
 	public void setProjectsId(List<String> projectsId) {
 		this.projectsId = projectsId;
 	}
-	public List<String> getArtifactsId() {
-		return artifactsId;
-	}
-	public void setArtifactsId(List<String> artifactsId) {
-		this.artifactsId = artifactsId;
-	}
-	
-	
 }

@@ -17,20 +17,17 @@ public class Workspace {
 	private String ownerId;
 	private boolean completed;
 	private List<String> projectsId = new ArrayList<>();
-	private List<String> artifactsId = new ArrayList<>();
 	
 	public Workspace() {
 		super();
 	}
 	
-	public Workspace(String name, String description, String ownerId, List<String> projectsId,
-			List<String> artifactsId) {
+	public Workspace(String name, String description, String ownerId, List<String> projectsId) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.ownerId = ownerId;
 		this.projectsId = projectsId;
-		this.artifactsId = artifactsId;
 	}
 
 	public String getId() {
@@ -79,14 +76,5 @@ public class Workspace {
 
 	public void setProjectsId(List<String> projectsId) {
 		this.projectsId = projectsId;
-	}
-
-	public List<String> getArtifactsId() {
-		return artifactsId;
-	}
-
-	public void setArtifactsId(List<String> artifactsId) {
-		this.artifactsId = artifactsId;
-	}
-		
+	}		
 }

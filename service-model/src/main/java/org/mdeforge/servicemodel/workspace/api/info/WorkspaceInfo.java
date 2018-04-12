@@ -10,31 +10,27 @@ public class WorkspaceInfo {
 	private String name;
 	private String ownerId;
 	private List<String> projectsId = new ArrayList<>();
-	private List<String> artifactsId = new ArrayList<>();
 	
 	public WorkspaceInfo() {
 		super();
 	}
 	
 	public WorkspaceInfo(String description, String name, String ownerId,
-			List<String> projectsId, List<String> artifactsId) {
+			List<String> projectsId) {
 		super();
 		this.description = description;
 		this.name = name;
 		this.ownerId = ownerId;
 		this.projectsId = projectsId;
-		this.artifactsId = artifactsId;
 	}
 	
-	public WorkspaceInfo(String id, String description, String name, String ownerId, List<String> projectsId,
-			List<String> artifactsId) {
+	public WorkspaceInfo(String id, String description, String name, String ownerId, List<String> projectsId) {
 		super();
 		this.id = id;
 		this.description = description;
 		this.name = name;
 		this.ownerId = ownerId;
 		this.projectsId = projectsId;
-		this.artifactsId = artifactsId;
 	}
 
 	public String getId() {
@@ -75,14 +71,5 @@ public class WorkspaceInfo {
 
 	public void setProjectsId(List<String> projectsId) {
 		this.projectsId = projectsId;
-	}
-
-	public List<String> getArtifactsId() {
-		return artifactsId;
-	}
-
-	public void setArtifactsId(List<String> artifactsId) {
-		this.artifactsId = artifactsId;
-	}
-	
+	}	
 }

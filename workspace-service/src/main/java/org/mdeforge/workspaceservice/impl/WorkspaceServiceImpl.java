@@ -51,8 +51,7 @@ public class WorkspaceServiceImpl implements WorkspaceService{
 		log.info("create - WorkspaceServiceImpl "+workspace);
 		
 		WorkspaceInfo workspaceInfo = new WorkspaceInfo(workspace.getDescription(), workspace.getName(),
-														workspace.getOwnerId(),workspace.getProjectsId(),
-														workspace.getArtifactsId());
+														workspace.getOwnerId(),workspace.getProjectsId());
 		
 		List<WorkspaceDomainEvent> events = singletonList(new WorkspaceCreatedEvent(workspaceInfo));
 		ResultWithDomainEvents<Workspace, WorkspaceDomainEvent> workspaceAndEvents = new ResultWithDomainEvents<>(workspace, events);
@@ -61,7 +60,7 @@ public class WorkspaceServiceImpl implements WorkspaceService{
 		
 		workspaceAggregateEventPublisher.publish(workspace, workspaceAndEvents.events);
 		
-		CreateWorkspaceSagaData data = new CreateWorkspaceSagaData(workspace.getId(),workspace.getOwnerId(),workspace.getProjectsId(),workspace.getArtifactsId());
+		CreateWorkspaceSagaData data = new CreateWorkspaceSagaData(workspace.getId(),workspace.getOwnerId(),workspace.getProjectsId());
 		createWorkspaceSagaManager.create(data, Workspace.class, workspace.getId());
 		
 		return workspace;
@@ -79,7 +78,7 @@ public class WorkspaceServiceImpl implements WorkspaceService{
 		
 		UpdateWorkspaceSagaData data = new UpdateWorkspaceSagaData(workspace.getId(), modifiedWorkspace.getName(), 
 										modifiedWorkspace.getDescription(), modifiedWorkspace.getOwnerId(), 
-										modifiedWorkspace.getProjectsId(), modifiedWorkspace.getArtifactsId());
+										modifiedWorkspace.getProjectsId());
 		
 		updateWorkspaceSagaManager.create(data);
 		

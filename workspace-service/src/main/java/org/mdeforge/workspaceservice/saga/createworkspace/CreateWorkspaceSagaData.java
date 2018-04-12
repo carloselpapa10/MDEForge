@@ -8,17 +8,14 @@ public class CreateWorkspaceSagaData {
 	private String workspaceId;
 	private String userId;
 	private List<String> projectsId = new ArrayList<>();
-	private List<String> artifactsId = new ArrayList<>();
 	
 	public CreateWorkspaceSagaData() {}
 
-	public CreateWorkspaceSagaData(String workspaceId, String userId, List<String> projectsId,
-			List<String> artifactsId) {
+	public CreateWorkspaceSagaData(String workspaceId, String userId, List<String> projectsId) {
 		super();
 		this.workspaceId = workspaceId;
 		this.userId = userId;
 		this.projectsId = projectsId;
-		this.artifactsId = artifactsId;
 	}
 
 	public String getWorkspaceId() {
@@ -43,14 +40,6 @@ public class CreateWorkspaceSagaData {
 
 	public void setProjectsId(List<String> projectsId) {
 		this.projectsId = projectsId;
-	}
-
-	public List<String> getArtifactsId() {
-		return artifactsId;
-	}
-
-	public void setArtifactsId(List<String> artifactsId) {
-		this.artifactsId = artifactsId;
 	}
 	
 }

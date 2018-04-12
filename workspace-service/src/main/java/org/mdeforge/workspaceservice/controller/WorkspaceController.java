@@ -24,7 +24,7 @@ public class WorkspaceController {
 	@PostMapping("/workspace")
 	public CreateWorkspaceResponse createWorkspace(@RequestBody CreateWorkspaceRequest request) {
 		Workspace workspace = workspaceServiceImpl.create(new Workspace(request.getName(),request.getDescription(),
-														request.getOwnerId(),request.getProjectsId(),request.getArtifactsId()));
+														request.getOwnerId(),request.getProjectsId()));
 		
 		return new CreateWorkspaceResponse(workspace.getId());
 	}

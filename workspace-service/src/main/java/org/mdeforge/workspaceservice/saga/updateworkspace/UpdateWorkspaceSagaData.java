@@ -10,28 +10,24 @@ public class UpdateWorkspaceSagaData {
 	private String description;	
 	private String userId;
 	private List<String> projectsId = new ArrayList<>();
-	private List<String> artifactsId = new ArrayList<>();
 	
 	public UpdateWorkspaceSagaData() {}
 	
-	public UpdateWorkspaceSagaData(String workspaceId, String userId, List<String> projectsId,
-			List<String> artifactsId) {
+	public UpdateWorkspaceSagaData(String workspaceId, String userId, List<String> projectsId) {
 		super();
 		this.workspaceId = workspaceId;
 		this.userId = userId;
 		this.projectsId = projectsId;
-		this.artifactsId = artifactsId;
 	}
 	
 	public UpdateWorkspaceSagaData(String workspaceId, String name, String description, String userId,
-			List<String> projectsId, List<String> artifactsId) {
+			List<String> projectsId) {
 		super();
 		this.workspaceId = workspaceId;
 		this.name = name;
 		this.description = description;
 		this.userId = userId;
 		this.projectsId = projectsId;
-		this.artifactsId = artifactsId;
 	}
 
 	public String getWorkspaceId() {
@@ -72,14 +68,6 @@ public class UpdateWorkspaceSagaData {
 
 	public void setProjectsId(List<String> projectsId) {
 		this.projectsId = projectsId;
-	}
-
-	public List<String> getArtifactsId() {
-		return artifactsId;
-	}
-
-	public void setArtifactsId(List<String> artifactsId) {
-		this.artifactsId = artifactsId;
 	}
 	
 }

@@ -1,11 +1,9 @@
 package org.mdeforge.workspaceservice.saga.createworkspace;
 
-import org.mdeforge.servicemodel.artifact.api.command.ValidateArtifactListByWorkspace;
 import org.mdeforge.servicemodel.project.api.command.ValidateProjectListByWorkspace;
 import org.mdeforge.servicemodel.user.api.command.ValidateUserByWorkspace;
 import org.mdeforge.servicemodel.workspace.api.command.CompleteWorkspaceCommand;
 import org.mdeforge.servicemodel.workspace.api.command.RejectWorkspaceCommand;
-import org.mdeforge.workspaceservice.proxy.ArtifactServiceProxy;
 import org.mdeforge.workspaceservice.proxy.ProjectServiceProxy;
 import org.mdeforge.workspaceservice.proxy.UserServiceProxy;
 import org.mdeforge.workspaceservice.proxy.WorkspaceServiceProxy;
@@ -23,8 +21,7 @@ public class CreateWorkspaceSaga implements SimpleSaga<CreateWorkspaceSagaData>{
 	
 	private SagaDefinition<CreateWorkspaceSagaData> sagaDefinition;
 	
-	public CreateWorkspaceSaga(WorkspaceServiceProxy workspaceService, UserServiceProxy userService, ProjectServiceProxy projectService,
-								ArtifactServiceProxy artifactService) {
+	public CreateWorkspaceSaga(WorkspaceServiceProxy workspaceService, UserServiceProxy userService, ProjectServiceProxy projectService) {
 		this.sagaDefinition =
 				step()
 					.withCompensation(workspaceService.reject, this::makeRejectWorkspaceCommand)
@@ -32,8 +29,6 @@ public class CreateWorkspaceSaga implements SimpleSaga<CreateWorkspaceSagaData>{
 					.invokeParticipant(userService.validateUser, this::makeValidateUserByWorkspace)
 				.step()
 					.invokeParticipant(projectService.validateProjects, this::makeValidateProjectListByWorkspace)
-				.step()
-					.invokeParticipant(artifactService.validateArtifacts, this::makeValidateArtifactListByWorkspace)
 				.step()
 					.invokeParticipant(workspaceService.complete, this::makeCompleteWorkspace)
 				.build();
@@ -58,12 +53,7 @@ public class CreateWorkspaceSaga implements SimpleSaga<CreateWorkspaceSagaData>{
 		log.info("makeValidateProjectListByWorkspace() - CreateWorkspaceSaga");	
 		return new ValidateProjectListByWorkspace(data.getProjectsId());
 	}
-	
-	private ValidateArtifactListByWorkspace makeValidateArtifactListByWorkspace(CreateWorkspaceSagaData data) {
-		log.info("makeValidateArtifactListByWorkspace() - CreateWorkspaceSaga");	
-		return new ValidateArtifactListByWorkspace(data.getArtifactsId());
-	}
-	
+		
 	private CompleteWorkspaceCommand makeCompleteWorkspace(CreateWorkspaceSagaData data) {
 		log.info("makeCompleteWorkspace() - CreateWorkspaceSaga");
 		return new CompleteWorkspaceCommand(data.getWorkspaceId());

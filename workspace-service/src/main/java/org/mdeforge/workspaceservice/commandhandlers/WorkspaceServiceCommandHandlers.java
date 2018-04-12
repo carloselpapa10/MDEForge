@@ -111,8 +111,7 @@ public class WorkspaceServiceCommandHandlers {
 		workspace.setName(command.getWorkspaceInfo().getName());
 		workspace.setDescription(command.getWorkspaceInfo().getDescription());
 		workspace.setOwnerId(command.getWorkspaceInfo().getOwnerId());
-		workspace.setProjectsId(command.getWorkspaceInfo().getProjectsId());
-		workspace.setArtifactsId(command.getWorkspaceInfo().getArtifactsId());		
+		workspace.setProjectsId(command.getWorkspaceInfo().getProjectsId());		
 		
 		List<WorkspaceDomainEvent> events = singletonList(new WorkspaceUpdatedEvent(command.getWorkspaceInfo()));
 		ResultWithDomainEvents<Workspace,WorkspaceDomainEvent> workspaceAndEvents = new ResultWithDomainEvents<>(workspace,events);

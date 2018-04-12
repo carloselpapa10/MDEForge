@@ -1,7 +1,7 @@
 package org.mdeforge.artifactservice.commandhandlers;
 
 import org.mdeforge.artifactservice.impl.ArtifactServiceImpl;
-import org.mdeforge.servicemodel.artifact.api.command.ValidateArtifactListByWorkspace;
+import org.mdeforge.servicemodel.artifact.api.command.ValidateArtifactListByProject;
 import org.mdeforge.servicemodel.common.Channels;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,12 +24,12 @@ public class ArtifactServiceCommandHandlers {
 	public CommandHandlers commandHandlers() {
 		return SagaCommandHandlersBuilder
 				.fromChannel(Channels.ARTIFACT_SERVICE)
-				.onMessage(ValidateArtifactListByWorkspace.class, this::handleValidateArtifactListByWorkspace)
+				.onMessage(ValidateArtifactListByProject.class, this::handleValidateArtifactListByProject)
 				.build();		
 	}
 
-	private Message handleValidateArtifactListByWorkspace(CommandMessage<ValidateArtifactListByWorkspace> cm) {
-		log.info("handleValidateArtifactListByWorkspace() - ArtifactServiceCommandHandlers");
+	private Message handleValidateArtifactListByProject(CommandMessage<ValidateArtifactListByProject> cm) {
+		log.info("handleValidateArtifactListByProject() - ArtifactServiceCommandHandlers");
 		
 		/*TODO*/
 		
