@@ -7,10 +7,12 @@ import org.mdeforge.servicemodel.common.BusinessException;
 
 public interface ProjectService {
 
-	public Project findById(String id, String ownerId) throws BusinessException;
-	public Project findOne(String id) throws BusinessException;
+	public Project create(Project project) throws BusinessException;	
 	
-	/*public Project create(Project project, UserInfo userId) throws BusinessException;
+	public Project findOne(String id) throws BusinessException;
+	public List<Project> findAllProjects() throws BusinessException;
+	
+	/*
 	public Project update(Project project, UserInfo idUser) throws BusinessException;
 	public void delete(Project project, UserInfo user) throws BusinessException;
 	public void removeArtifactFromProject(String idArtifact, String idProject,UserInfo user) throws BusinessException;
@@ -19,6 +21,7 @@ public interface ProjectService {
 	public Project cloneProject(String userId, String projectToCloneId,String workspaceId);
 	public void removeUserFromProject(String idUser, String idProject, UserInfo user) throws BusinessException;
 	
+	public Project findById(String id, String ownerId) throws BusinessException;
 	public Project findByName(String name) throws BusinessException;
 	public Project findById(String id, UserInfo user) throws BusinessException;
 	public List<Project> findByIdWorkspace(String idWorkspace, UserInfo user) throws BusinessException;

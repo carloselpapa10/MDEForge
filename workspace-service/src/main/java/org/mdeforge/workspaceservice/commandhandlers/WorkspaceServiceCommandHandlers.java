@@ -4,6 +4,7 @@ import org.mdeforge.servicemodel.common.Channels;
 import org.mdeforge.servicemodel.workspace.api.command.CompleteWorkspaceCommand;
 import org.mdeforge.servicemodel.workspace.api.command.RejectWorkspaceCommand;
 import org.mdeforge.servicemodel.workspace.api.command.UpdateWorkspaceCommand;
+import org.mdeforge.servicemodel.workspace.api.command.ValidateWorkspaceListByProject;
 import org.mdeforge.workspaceservice.impl.WorkspaceServiceImpl;
 import org.mdeforge.workspaceservice.model.Workspace;
 import org.mdeforge.workspaceservice.model.WorkspaceDomainEventPublisher;
@@ -50,6 +51,7 @@ public class WorkspaceServiceCommandHandlers {
 				.onMessage(RejectWorkspaceCommand.class, this::rejectCreateWorkspace)
 				.onMessage(CompleteWorkspaceCommand.class, this::completeCreateWorkspace)
 				.onMessage(UpdateWorkspaceCommand.class, this::handleUpdateWorkspace)
+				.onMessage(ValidateWorkspaceListByProject.class, this::handleValidateWorkspaceListByProject)
 				.build();
 	}
 	
@@ -119,6 +121,12 @@ public class WorkspaceServiceCommandHandlers {
 		workspaceRepository.save(workspace);
 		workspaceDomainEventPublisher.publish(workspace, workspaceAndEvents.events);
 		
+		return withSuccess();
+	}
+	
+	public Message handleValidateWorkspaceListByProject(CommandMessage<ValidateWorkspaceListByProject> cm) {
+		log.info("handleUpdateWorkspace() - WorkspaceServiceCommandHandlers");
+		/* TODO */
 		return withSuccess();
 	}
 	

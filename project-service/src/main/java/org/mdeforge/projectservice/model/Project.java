@@ -4,8 +4,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+import org.springframework.data.annotation.Id;
+
 public class Project {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;
 	private String name;	
 	private boolean open;
@@ -16,10 +23,25 @@ public class Project {
 	private List<String> artifactsId = new ArrayList<>();
 	private List<String> usersId = new ArrayList<>();
 	private List<String> workspacesId = new ArrayList<>();
+	private boolean completed;
 	
 	public Project() {
 		super();
 	}
+	
+	
+	public Project(String name, String description, String ownerId, List<String> artifactsId, List<String> usersId,
+			List<String> workspacesId) {
+		super();
+		this.name = name;
+		Description = description;
+		this.ownerId = ownerId;
+		this.artifactsId = artifactsId;
+		this.usersId = usersId;
+		this.workspacesId = workspacesId;
+	}
+
+
 
 	public String getId() {
 		return id;
@@ -99,6 +121,16 @@ public class Project {
 
 	public void setWorkspacesId(List<String> workspacesId) {
 		this.workspacesId = workspacesId;
+	}
+
+
+	public boolean isCompleted() {
+		return completed;
+	}
+
+
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
 	}	
 	
 }

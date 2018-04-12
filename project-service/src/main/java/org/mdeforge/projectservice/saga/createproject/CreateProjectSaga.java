@@ -31,18 +31,17 @@ public class CreateProjectSaga implements SimpleSaga<CreateProjectSagaData>{
 				step()
 					.withCompensation(projectService.reject, this::makeRejectProjectCommand)
 				.step()
-					.invokeParticipant(userService.validateUser, this::makeValidateUserByProject)					
-				.step()
-					.invokeParticipant(userService.shareProjectToUsers, this::makeShareProjectToUsers)
-					.withCompensation(userService.compensateShareProjectToUsers, this::makeCompensateShareProjectToUsers)
+					.invokeParticipant(userService.validateUser, this::makeValidateUserByProject)	
 				.step()
 					.invokeParticipant(workspaceService.validateWorkspaces, this::makeValidateWorkspaceListByProject)
 				.step()
 					.invokeParticipant(artifactService.validateArtifacts, this::makeValidateArtifactListByProject)
 				.step()
+					.invokeParticipant(userService.shareProjectToUsers, this::makeShareProjectToUsers)
+					.withCompensation(userService.compensateShareProjectToUsers, this::makeCompensateShareProjectToUsers)
+				.step()
 					.invokeParticipant(projectService.complete, this::makeCompleteProject)
-				.build();
-				
+				.build();		
 	}
 	
 	@Override
@@ -52,17 +51,17 @@ public class CreateProjectSaga implements SimpleSaga<CreateProjectSagaData>{
 	
 	private RejectProjectCommand makeRejectProjectCommand(CreateProjectSagaData data) {
 		log.info("makeRejectProjectCommand() - CreateProjectSaga"); 
-		return new RejectProjectCommand();
+		return new RejectProjectCommand(data.getProjectId());
 	}
 	
 	private ValidateUserByProject makeValidateUserByProject(CreateProjectSagaData data) {
 		log.info("makeValidateUserByProject() - CreateProjectSaga"); 
-		return new ValidateUserByProject();
+		return new ValidateUserByProject(data.getOwnerId());
 	}
 	
 	private ShareProjectToUserList makeShareProjectToUsers(CreateProjectSagaData data) {
 		log.info("makeShareProjectToUsers() - CreateProjectSaga"); 
-		return new ShareProjectToUserList();
+		return new ShareProjectToUserList(data.getProjectId(), data.getUsersId());
 	}
 	
 	private CompensateShareProjectToUserList makeCompensateShareProjectToUsers(CreateProjectSagaData data) {
@@ -72,16 +71,16 @@ public class CreateProjectSaga implements SimpleSaga<CreateProjectSagaData>{
 	
 	private ValidateWorkspaceListByProject makeValidateWorkspaceListByProject(CreateProjectSagaData data) {
 		log.info("makeValidateWorkspaceListByProject() - CreateProjectSaga"); 
-		return new ValidateWorkspaceListByProject();
+		return new ValidateWorkspaceListByProject(data.getWorkspacesId());
 	}
 	
 	private ValidateArtifactListByProject makeValidateArtifactListByProject(CreateProjectSagaData data) {
 		log.info("makeValidateArtifactListByProject() - CreateProjectSaga"); 
-		return new ValidateArtifactListByProject();
+		return new ValidateArtifactListByProject(data.getArtifactsId());
 	}
 	
 	private CompleteProjectCommand makeCompleteProject(CreateProjectSagaData data) {
 		log.info("makeCompleteProject() - CreateProjectSaga"); 
-		return new CompleteProjectCommand();
+		return new CompleteProjectCommand(data.getProjectId());
 	}
 }
