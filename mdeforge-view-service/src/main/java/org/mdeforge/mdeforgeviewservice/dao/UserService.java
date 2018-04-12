@@ -11,7 +11,7 @@ public interface UserService {
 	public User create(User user) throws BusinessException;	
 	public User findOne(String id) throws BusinessException;
 	public User findOneByUsername(String username) throws BusinessException;
-	
+	public List<User> findAllUsers() throws BusinessException;
 	/*
 	public User authenticate(String username) throws BusinessException;	
 	public void delete(String id) throws BusinessException;

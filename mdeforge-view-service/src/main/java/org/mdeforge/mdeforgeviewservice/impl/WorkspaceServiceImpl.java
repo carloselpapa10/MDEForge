@@ -64,4 +64,10 @@ public class WorkspaceServiceImpl implements WorkspaceService{
 		
 	}
 
+	@Override
+	public List<Workspace> findAllWorkspaces() throws BusinessException {
+		log.info("findAllWorkspaces - WorkspaceServiceImpl");
+		return workspaceRepository.findAll();
+	}
+
 }

@@ -1,5 +1,6 @@
 package org.mdeforge.mdeforgeviewservice.impl;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import org.mdeforge.mdeforgeviewservice.dao.UserService;
 import org.mdeforge.mdeforgeviewservice.model.Role;
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User findOne(String id) throws BusinessException {
-		
+		log.info("findOne - UserServiceImpl");
 		try {
 			User user = userRepository.findById(id).get();
 			return user;
@@ -50,6 +51,12 @@ public class UserServiceImpl implements UserService{
 	public User findOneByUsername(String username) throws BusinessException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<User> findAllUsers() throws BusinessException {
+		log.info("findOne - UserServiceImpl");
+		return userRepository.findAll();
 	}
 
 }

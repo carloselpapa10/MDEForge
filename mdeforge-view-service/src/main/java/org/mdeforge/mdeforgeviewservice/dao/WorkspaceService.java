@@ -12,5 +12,5 @@ public interface WorkspaceService {
 	public List<Workspace> findAll() throws BusinessException;
 	public Workspace findOne(String workspaceId) throws BusinessException;
 	public void delete(String workspaceId) throws BusinessException;
-	
+	public List<Workspace> findAllWorkspaces() throws BusinessException; 
 }
