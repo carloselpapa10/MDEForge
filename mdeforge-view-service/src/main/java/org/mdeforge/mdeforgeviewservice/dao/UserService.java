@@ -12,6 +12,9 @@ public interface UserService {
 	public User findOne(String id) throws BusinessException;
 	public User findOneByUsername(String username) throws BusinessException;
 	public List<User> findAllUsers() throws BusinessException;
+	
+	public void SharedProjectToUser(User user) throws BusinessException;
+	public void CompensateSharedProjectToUser(User user) throws BusinessException;
 	/*
 	public User authenticate(String username) throws BusinessException;	
 	public void delete(String id) throws BusinessException;

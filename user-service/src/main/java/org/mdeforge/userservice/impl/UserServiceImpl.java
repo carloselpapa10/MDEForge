@@ -5,6 +5,8 @@ import java.util.NoSuchElementException;
 
 import org.mdeforge.servicemodel.common.BusinessException;
 import org.mdeforge.servicemodel.project.api.info.ProjectInfo;
+import org.mdeforge.servicemodel.user.api.events.CompensateSharedProjectToUserEvent;
+import org.mdeforge.servicemodel.user.api.events.SharedProjectToUserEvent;
 import org.mdeforge.servicemodel.user.api.events.UserCreatedEvent;
 import org.mdeforge.servicemodel.user.api.events.UserDomainEvent;
 import org.mdeforge.servicemodel.user.api.info.RoleInfo;
@@ -64,11 +66,65 @@ public class UserServiceImpl implements UserService{
 		
 		return user;
 	}
-
+	
 	@Override
-	public User authenticate(String username) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean shareProjectToUserList(List<String> userList, String projectId) throws BusinessException {
+		log.info("shareProjectToUserList - UserServiceImpl");
+		
+		List<User> users = new ArrayList<>();
+		User user_;
+		for(String userId: userList) {
+			user_ = findOne(userId); 
+			if(user_ == null) { return false;}
+			else {
+				users.add(user_);
+			}
+		}
+				
+		users.forEach(user->{
+			List<String> projectsId = user.getSharedProject();
+			if(!projectsId.contains(projectId)) {
+				projectsId.add(projectId);
+				user.setSharedProject(projectsId);
+				
+				List<UserDomainEvent> events = singletonList(new SharedProjectToUserEvent(projectId, user.getId()));
+				ResultWithDomainEvents<User,UserDomainEvent> userAndEvents = new ResultWithDomainEvents<>(user, events);
+				
+				userRepository.save(user);
+				userAggregateEventPublisher.publish(user, userAndEvents.events);
+			}
+		});
+
+		return true;
+	}
+	
+	@Override
+	public boolean compensateShareProjectToUserList(List<String> userList, String projectId) throws BusinessException {
+		log.info("shareProjectToUserList - UserServiceImpl");
+		
+		List<User> users = new ArrayList<>();
+		User user_;
+		for(String userId: userList) {
+			user_ = findOne(userId); 
+			if(user_ == null) { return false;}
+			else {
+				users.add(user_);
+			}
+		}
+		
+		users.forEach(user->{
+			List<String> projectsId = user.getSharedProject();
+			projectsId.remove(projectId);
+			user.setSharedProject(projectsId);
+			
+			List<UserDomainEvent> events = singletonList(new CompensateSharedProjectToUserEvent(projectId, user.getId()));
+			ResultWithDomainEvents<User,UserDomainEvent> userAndEvents = new ResultWithDomainEvents<>(user, events);
+			
+			userRepository.save(user);
+			userAggregateEventPublisher.publish(user, userAndEvents.events);
+		});
+		
+		return true;
 	}
 
 	@Override
@@ -79,12 +135,6 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public void saveRegisteredUser(User user) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void createVerificationToken(User user, String token) {
 		// TODO Auto-generated method stub
 		
 	}

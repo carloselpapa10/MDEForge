@@ -2,3 +2,10 @@ MDEForge Doubts
 
 1. Why workspace entity contains a list of artifacts?.
 2. Why we aren't respect the relationship presented on the class diagram?.
+
+Share project to users
+
+suppose you share a project to a list of users
+what happens if a user has already that project id?
+be careful with the compensate operation in a saga with that shared project because the problem is when an update saga is executed and was wrong for any reasons, 
+so compensate share project to user is activated and it can delete a relation project - user. 

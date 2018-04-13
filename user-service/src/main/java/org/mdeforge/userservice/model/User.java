@@ -24,10 +24,10 @@ public class User{
 	private boolean enabled;
 	private String password;
 	private List<Role> roles = new ArrayList<>();
+	private List<String> sharedProject = new ArrayList<>();
 	
 	/*	
-	private List<ArtifactInfo> owner = new ArrayList<>();
-	private List<ProjectInfo> sharedProject = new ArrayList<>();
+	private List<ArtifactInfo> owner = new ArrayList<>();	
 	private List<ArtifactInfo> sharedArtifact = new ArrayList<>();
 	private List<WorkspaceInfo> workspaces = new ArrayList<>();
 	*/
@@ -99,5 +99,11 @@ public class User{
 	}
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
+	}
+	public List<String> getSharedProject() {
+		return sharedProject;
+	}
+	public void setSharedProject(List<String> sharedProject) {
+		this.sharedProject = sharedProject;
 	}	
 }

@@ -59,4 +59,16 @@ public class UserServiceImpl implements UserService{
 		return userRepository.findAll();
 	}
 
+	@Override
+	public void SharedProjectToUser(User user) throws BusinessException {
+		log.info("SharedProjectToUser - UserServiceImpl");
+		userRepository.save(user);
+	}
+
+	@Override
+	public void CompensateSharedProjectToUser(User user) throws BusinessException {
+		log.info("CompensateSharedProjectToUser - UserServiceImpl");
+		userRepository.save(user);
+	}
+
 }

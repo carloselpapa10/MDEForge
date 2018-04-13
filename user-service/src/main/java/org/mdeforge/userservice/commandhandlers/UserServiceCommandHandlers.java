@@ -18,6 +18,9 @@ import io.eventuate.tram.sagas.participant.SagaCommandHandlersBuilder;
 import static io.eventuate.tram.commands.consumer.CommandHandlerReplyBuilder.withFailure;
 import static io.eventuate.tram.commands.consumer.CommandHandlerReplyBuilder.withSuccess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserServiceCommandHandlers {
 
 	private static final Logger log = LoggerFactory.getLogger(UserServiceCommandHandlers.class);
@@ -54,11 +57,22 @@ public class UserServiceCommandHandlers {
 	
 	private Message handleShareProjectToUserList(CommandMessage<ShareProjectToUserList> cm) {
 		log.info("handleShareProjectToUserList() - UserServiceCommandHandlers");
+		
+		ShareProjectToUserList command = cm.getCommand();
+				
+		if(!userServiceImpl.shareProjectToUserList(command.getUsersId(), command.getProjectId())) {
+			return withFailure();
+		}
+		
 		return withSuccess();
 	}
 	
 	private Message handleCompensateShareProjectToUserList(CommandMessage<CompensateShareProjectToUserList> cm) {
 		log.info("handleCompensateShareProjectToUserList() - UserServiceCommandHandlers");
+		
+		CompensateShareProjectToUserList command = cm.getCommand();
+		
+		
 		return withSuccess();
 	}
 }

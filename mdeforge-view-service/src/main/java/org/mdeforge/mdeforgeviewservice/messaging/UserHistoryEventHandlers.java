@@ -3,9 +3,13 @@ package org.mdeforge.mdeforgeviewservice.messaging;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mdeforge.mdeforgeviewservice.impl.ProjectServiceImpl;
 import org.mdeforge.mdeforgeviewservice.impl.UserServiceImpl;
+import org.mdeforge.mdeforgeviewservice.model.Project;
 import org.mdeforge.mdeforgeviewservice.model.Role;
 import org.mdeforge.mdeforgeviewservice.model.User;
+import org.mdeforge.servicemodel.user.api.events.CompensateSharedProjectToUserEvent;
+import org.mdeforge.servicemodel.user.api.events.SharedProjectToUserEvent;
 import org.mdeforge.servicemodel.user.api.events.UserCreatedEvent;
 import org.mdeforge.servicemodel.user.api.events.UserDeletedEvent;
 import org.mdeforge.servicemodel.user.api.events.UserUpdatedEvent;
@@ -26,12 +30,17 @@ public class UserHistoryEventHandlers {
 	@Autowired
 	private UserServiceImpl userServiceImpl;
 	
+	@Autowired
+	private ProjectServiceImpl projectServiceImpl; 
+	
 	public DomainEventHandlers domainEventHandlers() {
 		return DomainEventHandlersBuilder
 				.forAggregateType("org.mdeforge.userservice.model.User")
 				.onEvent(UserCreatedEvent.class, this::handleUserCreatedEvent)
 				.onEvent(UserUpdatedEvent.class, this::handleUserUpdatedEvent)
 				.onEvent(UserDeletedEvent.class, this::handleUserDeletedEvent)
+				.onEvent(SharedProjectToUserEvent.class, this::handleSharedProjectToUserEvent)
+				.onEvent(CompensateSharedProjectToUserEvent.class, this::handleCompensateSharedProjectToUserEvent)
 				.build();
 		
 	}
@@ -64,5 +73,43 @@ public class UserHistoryEventHandlers {
 	
 	public void handleUserDeletedEvent(DomainEventEnvelope<UserDeletedEvent> dee) {
 		log.info("handleUserDeletedEvent() - UserHistoryEventHandlers - mdeforge-view-service");
+	}
+	
+	public void handleSharedProjectToUserEvent(DomainEventEnvelope<SharedProjectToUserEvent> dee) {
+		log.info("handleSharedProjectToUserEvent() - UserHistoryEventHandlers - mdeforge-view-service");
+		
+		User user = userServiceImpl.findOne(dee.getAggregateId());
+		
+		if(user != null) {
+			List<Project> sharedProject = user.getSharedProject();
+			
+			Project project = projectServiceImpl.findOne(dee.getEvent().getProjectId());
+			sharedProject.add(project);
+			user.setSharedProject(sharedProject);
+			
+			userServiceImpl.SharedProjectToUser(user);
+		
+		}else {
+			log.info("FATAL ERROR");
+		}
+				
+	}
+	
+	public void handleCompensateSharedProjectToUserEvent(DomainEventEnvelope<CompensateSharedProjectToUserEvent> dee) {
+		log.info("handleCompensateSharedProjectToUserEvent() - UserHistoryEventHandlers - mdeforge-view-service");
+		
+		User user = userServiceImpl.findOne(dee.getAggregateId());
+		
+		if(user != null) {
+			List<Project> sharedProject = user.getSharedProject();
+			Project project = projectServiceImpl.findOne(dee.getEvent().getProjectId());
+			sharedProject.remove(project);
+			user.setSharedProject(sharedProject);
+			
+			userServiceImpl.CompensateSharedProjectToUser(user);
+			
+		}else {
+			log.info("FATAL ERROR");
+		}
 	}
 }

@@ -66,7 +66,7 @@ public class CreateProjectSaga implements SimpleSaga<CreateProjectSagaData>{
 	
 	private CompensateShareProjectToUserList makeCompensateShareProjectToUsers(CreateProjectSagaData data) {
 		log.info("makeCompensateShareProjectToUsers() - CreateProjectSaga"); 
-		return new CompensateShareProjectToUserList();
+		return new CompensateShareProjectToUserList(data.getProjectId(), data.getUsersId());
 	}
 	
 	private ValidateWorkspaceListByProject makeValidateWorkspaceListByProject(CreateProjectSagaData data) {
