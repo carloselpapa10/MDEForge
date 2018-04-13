@@ -7,6 +7,7 @@ import org.mdeforge.projectservice.model.ProjectRepository;
 import org.mdeforge.servicemodel.common.Channels;
 import org.mdeforge.servicemodel.project.api.command.CompleteProjectCommand;
 import org.mdeforge.servicemodel.project.api.command.RejectProjectCommand;
+import org.mdeforge.servicemodel.project.api.command.UpdateProjectCommand;
 import org.mdeforge.servicemodel.project.api.command.ValidateProjectListByWorkspace;
 import org.mdeforge.servicemodel.project.api.events.ProjectCompletedEvent;
 import org.mdeforge.servicemodel.project.api.events.ProjectDomainEvent;
@@ -45,6 +46,7 @@ public class ProjectServiceCommandHandlers {
 				.onMessage(RejectProjectCommand.class, this::handleRejectProjectCommand)
 				.onMessage(CompleteProjectCommand.class, this::handleCompleteProjectCommand)
 				.onMessage(ValidateProjectListByWorkspace.class, this::handleValidateProjectListByWorkspace)
+				.onMessage(UpdateProjectCommand.class, this::handleUpdateProjectCommand)
 				.build();
 	}
 	
@@ -105,6 +107,12 @@ public class ProjectServiceCommandHandlers {
 			}
 		}
 	
+		return withSuccess();
+	}
+	
+	private Message handleUpdateProjectCommand(CommandMessage<UpdateProjectCommand> cm) {
+		log.info("handleUpdateProjectCommand() - ProjectServiceCommandHandlers");
+		
 		return withSuccess();
 	}
 }
