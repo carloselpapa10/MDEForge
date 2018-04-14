@@ -2,6 +2,7 @@ package org.mdeforge.userservice.commandhandlers;
 
 import org.mdeforge.servicemodel.common.Channels;
 import org.mdeforge.servicemodel.user.api.command.CompensateShareProjectToUserList;
+import org.mdeforge.servicemodel.user.api.command.RemoveShareProjectToUserList;
 import org.mdeforge.servicemodel.user.api.command.ShareProjectToUserList;
 import org.mdeforge.servicemodel.user.api.command.ValidateUserByProject;
 import org.mdeforge.servicemodel.user.api.command.ValidateUserByWorkspace;
@@ -35,6 +36,7 @@ public class UserServiceCommandHandlers {
 				.onMessage(ValidateUserByProject.class, this::handleValidateUserByProject)
 				.onMessage(ShareProjectToUserList.class, this::handleShareProjectToUserList)
 				.onMessage(CompensateShareProjectToUserList.class, this::handleCompensateShareProjectToUserList)
+				.onMessage(RemoveShareProjectToUserList.class, this::handleRemoveShareProjectToUserList)
 				.build();
 	}
 	
@@ -72,6 +74,21 @@ public class UserServiceCommandHandlers {
 		
 		CompensateShareProjectToUserList command = cm.getCommand();
 		
+		if(!userServiceImpl.compensateShareProjectToUserList(command.getUsersId(), command.getProjectId())) {
+			return withFailure();
+		}
+		
+		return withSuccess();
+	}
+	
+	private Message handleRemoveShareProjectToUserList(CommandMessage<RemoveShareProjectToUserList> cm) {
+		log.info("handleCompensateShareProjectToUserList() - UserServiceCommandHandlers");
+		
+		RemoveShareProjectToUserList command = cm.getCommand();
+		
+		if(!userServiceImpl.removeShareProjectToUserList(command.getUsersId(), command.getProjectId())) {
+			return withFailure();
+		}
 		
 		return withSuccess();
 	}

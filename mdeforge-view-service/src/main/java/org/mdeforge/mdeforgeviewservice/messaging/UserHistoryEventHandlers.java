@@ -9,6 +9,7 @@ import org.mdeforge.mdeforgeviewservice.model.Project;
 import org.mdeforge.mdeforgeviewservice.model.Role;
 import org.mdeforge.mdeforgeviewservice.model.User;
 import org.mdeforge.servicemodel.user.api.events.CompensateSharedProjectToUserEvent;
+import org.mdeforge.servicemodel.user.api.events.RemovedShareProjectToUserListEvent;
 import org.mdeforge.servicemodel.user.api.events.SharedProjectToUserEvent;
 import org.mdeforge.servicemodel.user.api.events.UserCreatedEvent;
 import org.mdeforge.servicemodel.user.api.events.UserDeletedEvent;
@@ -41,6 +42,7 @@ public class UserHistoryEventHandlers {
 				.onEvent(UserDeletedEvent.class, this::handleUserDeletedEvent)
 				.onEvent(SharedProjectToUserEvent.class, this::handleSharedProjectToUserEvent)
 				.onEvent(CompensateSharedProjectToUserEvent.class, this::handleCompensateSharedProjectToUserEvent)
+				.onEvent(RemovedShareProjectToUserListEvent.class, this::handleRemovedShareProjectToUserListEvent)
 				.build();
 		
 	}
@@ -107,6 +109,24 @@ public class UserHistoryEventHandlers {
 			user.setSharedProject(sharedProject);
 			
 			userServiceImpl.CompensateSharedProjectToUser(user);
+			
+		}else {
+			log.info("FATAL ERROR");
+		}
+	}
+	
+	public void handleRemovedShareProjectToUserListEvent(DomainEventEnvelope<RemovedShareProjectToUserListEvent> dee) {
+		log.info("handleRemovedShareProjectToUserListEvent() - UserHistoryEventHandlers - mdeforge-view-service");
+		
+		User user = userServiceImpl.findOne(dee.getAggregateId());
+		
+		if(user != null) {
+			List<Project> sharedProject = user.getSharedProject();
+			Project project = projectServiceImpl.findOne(dee.getEvent().getProjectId());
+			sharedProject.remove(project);
+			user.setSharedProject(sharedProject);
+			
+			userServiceImpl.removeShareProjectToUserList(user);
 			
 		}else {
 			log.info("FATAL ERROR");

@@ -8,6 +8,7 @@ import org.mdeforge.projectservice.model.Project;
 import org.mdeforge.projectservice.model.ProjectDomainEventPublisher;
 import org.mdeforge.projectservice.model.ProjectRepository;
 import org.mdeforge.projectservice.saga.createproject.CreateProjectSagaData;
+import org.mdeforge.projectservice.saga.deleteproject.DeleteProjectSagaData;
 import org.mdeforge.servicemodel.common.BusinessException;
 import org.mdeforge.servicemodel.project.api.events.ProjectCreatedEvent;
 import org.mdeforge.servicemodel.project.api.events.ProjectDomainEvent;
@@ -36,6 +37,9 @@ public class ProjectServiceImpl implements ProjectService{
 	private SagaManager<CreateProjectSagaData> createProjectSagaManager;
 	
 	@Autowired
+	private SagaManager<DeleteProjectSagaData> deleteProjectSagaManager;
+	
+	@Autowired
 	private ProjectDomainEventPublisher projectAggregateEventPublisher;
 
 	@Override
@@ -56,6 +60,21 @@ public class ProjectServiceImpl implements ProjectService{
 		createProjectSagaManager.create(data, Project.class, project.getId());
 		
 		return project;
+	}
+	
+	@Override
+	public Boolean delete(String projectId, String userId) throws BusinessException {
+		log.info("delete - ProjectServiceImpl ");
+		
+		Project project = findOne(projectId);
+		if(project == null) {
+			return false;
+		}
+		
+		DeleteProjectSagaData data = new DeleteProjectSagaData(project.getId(), userId, project.getUsersId());
+		deleteProjectSagaManager.create(data);
+		
+		return true;
 	}
 	
 	@Override

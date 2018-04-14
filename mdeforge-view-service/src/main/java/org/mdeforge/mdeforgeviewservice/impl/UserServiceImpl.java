@@ -71,4 +71,10 @@ public class UserServiceImpl implements UserService{
 		userRepository.save(user);
 	}
 
+	@Override
+	public void removeShareProjectToUserList(User user) throws BusinessException {
+		log.info("removeShareProjectToUserList - UserServiceImpl");
+		userRepository.save(user);
+	}
+
 }

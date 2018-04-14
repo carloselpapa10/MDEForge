@@ -7,6 +7,7 @@ import org.mdeforge.servicemodel.common.Channels;
 import io.eventuate.tram.commands.common.Success;
 
 import org.mdeforge.servicemodel.project.api.command.CompleteProjectCommand;
+import org.mdeforge.servicemodel.project.api.command.DeleteProjectCommand;
 import org.mdeforge.servicemodel.project.api.command.RejectProjectCommand;
 import org.mdeforge.servicemodel.project.api.command.UpdateProjectCommand;
 
@@ -31,4 +32,9 @@ public class ProjectServiceProxy {
 								.withReply(Success.class)
 								.build();
 
+	public final CommandEndpoint<DeleteProjectCommand> delete = CommandEndpointBuilder
+								.forCommand(DeleteProjectCommand.class)
+								.withChannel(Channels.PROJECT_SERVICE)
+								.withReply(Success.class)
+								.build();
 }

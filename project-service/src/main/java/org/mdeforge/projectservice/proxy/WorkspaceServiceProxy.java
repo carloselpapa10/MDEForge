@@ -16,4 +16,5 @@ public class WorkspaceServiceProxy {
 									.withChannel(Channels.WORKSPACE_SERVICE)
 									.withReply(Success.class)
 									.build();
+	
 }

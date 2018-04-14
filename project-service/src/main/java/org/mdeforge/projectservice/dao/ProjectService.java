@@ -11,10 +11,10 @@ public interface ProjectService {
 	
 	public Project findOne(String id) throws BusinessException;
 	public List<Project> findAllProjects() throws BusinessException;
+	public Boolean delete(String projectId, String userId) throws BusinessException;
 	
 	/*
-	public Project update(Project project, UserInfo idUser) throws BusinessException;
-	public void delete(Project project, UserInfo user) throws BusinessException;
+	public Project update(Project project, UserInfo idUser) throws BusinessException;	
 	public void removeArtifactFromProject(String idArtifact, String idProject,UserInfo user) throws BusinessException;
 	public void addArtifactInProject(String idArtifact, String idProject, UserInfo user) throws BusinessException;
 	public UserInfo addUserInProject(String idUser, String idProject, UserInfo user);

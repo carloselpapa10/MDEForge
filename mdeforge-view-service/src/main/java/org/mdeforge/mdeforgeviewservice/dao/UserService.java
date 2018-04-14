@@ -15,6 +15,8 @@ public interface UserService {
 	
 	public void SharedProjectToUser(User user) throws BusinessException;
 	public void CompensateSharedProjectToUser(User user) throws BusinessException;
+	public void removeShareProjectToUserList(User user) throws BusinessException;
+	
 	/*
 	public User authenticate(String username) throws BusinessException;	
 	public void delete(String id) throws BusinessException;

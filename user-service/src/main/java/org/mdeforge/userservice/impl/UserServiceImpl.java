@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 import org.mdeforge.servicemodel.common.BusinessException;
 import org.mdeforge.servicemodel.project.api.info.ProjectInfo;
 import org.mdeforge.servicemodel.user.api.events.CompensateSharedProjectToUserEvent;
+import org.mdeforge.servicemodel.user.api.events.RemovedShareProjectToUserListEvent;
 import org.mdeforge.servicemodel.user.api.events.SharedProjectToUserEvent;
 import org.mdeforge.servicemodel.user.api.events.UserCreatedEvent;
 import org.mdeforge.servicemodel.user.api.events.UserDomainEvent;
@@ -126,6 +127,35 @@ public class UserServiceImpl implements UserService{
 		
 		return true;
 	}
+	
+	@Override
+	public boolean removeShareProjectToUserList(List<String> userList, String projectId) throws BusinessException {
+		log.info("removeShareProjectToUserList - UserServiceImpl");
+		
+		List<User> users = new ArrayList<>();
+		User user_;
+		for(String userId: userList) {
+			user_ = findOne(userId); 
+			if(user_ == null) { return false;}
+			else {
+				users.add(user_);
+			}
+		}
+		
+		users.forEach(user->{
+			List<String> projectsId = user.getSharedProject();
+			projectsId.remove(projectId);
+			user.setSharedProject(projectsId);
+			
+			List<UserDomainEvent> events = singletonList(new RemovedShareProjectToUserListEvent(projectId, user.getId()));
+			ResultWithDomainEvents<User,UserDomainEvent> userAndEvents = new ResultWithDomainEvents<>(user, events);
+			
+			userRepository.save(user);
+			userAggregateEventPublisher.publish(user, userAndEvents.events);
+		});
+		
+		return true;
+	}
 
 	@Override
 	public void delete(String id) throws BusinessException {
@@ -203,6 +233,6 @@ public class UserServiceImpl implements UserService{
 	public List<User> findByUsernameContaining(String name) {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}	
 
 }

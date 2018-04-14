@@ -5,6 +5,7 @@ import io.eventuate.tram.sagas.simpledsl.CommandEndpoint;
 import io.eventuate.tram.sagas.simpledsl.CommandEndpointBuilder;
 import org.mdeforge.servicemodel.common.Channels;
 import org.mdeforge.servicemodel.user.api.command.CompensateShareProjectToUserList;
+import org.mdeforge.servicemodel.user.api.command.RemoveShareProjectToUserList;
 import org.mdeforge.servicemodel.user.api.command.ShareProjectToUserList;
 import org.mdeforge.servicemodel.user.api.command.ValidateUserByProject;
 
@@ -27,6 +28,12 @@ public class UserServiceProxy {
 	
 	public final CommandEndpoint<CompensateShareProjectToUserList> compensateShareProjectToUsers = CommandEndpointBuilder
 											.forCommand(CompensateShareProjectToUserList.class)
+											.withChannel(Channels.USER_SERVICE)
+											.withReply(Success.class)
+											.build();
+	
+	public final CommandEndpoint<RemoveShareProjectToUserList> removeShareProjectToUsers  = CommandEndpointBuilder
+											.forCommand(RemoveShareProjectToUserList.class)
 											.withChannel(Channels.USER_SERVICE)
 											.withReply(Success.class)
 											.build();

@@ -6,10 +6,12 @@ import org.mdeforge.projectservice.model.ProjectDomainEventPublisher;
 import org.mdeforge.projectservice.model.ProjectRepository;
 import org.mdeforge.servicemodel.common.Channels;
 import org.mdeforge.servicemodel.project.api.command.CompleteProjectCommand;
+import org.mdeforge.servicemodel.project.api.command.DeleteProjectCommand;
 import org.mdeforge.servicemodel.project.api.command.RejectProjectCommand;
 import org.mdeforge.servicemodel.project.api.command.UpdateProjectCommand;
 import org.mdeforge.servicemodel.project.api.command.ValidateProjectListByWorkspace;
 import org.mdeforge.servicemodel.project.api.events.ProjectCompletedEvent;
+import org.mdeforge.servicemodel.project.api.events.ProjectDeletedEvent;
 import org.mdeforge.servicemodel.project.api.events.ProjectDomainEvent;
 import org.mdeforge.servicemodel.project.api.events.ProjectRejectedEvent;
 import org.slf4j.Logger;
@@ -47,6 +49,7 @@ public class ProjectServiceCommandHandlers {
 				.onMessage(CompleteProjectCommand.class, this::handleCompleteProjectCommand)
 				.onMessage(ValidateProjectListByWorkspace.class, this::handleValidateProjectListByWorkspace)
 				.onMessage(UpdateProjectCommand.class, this::handleUpdateProjectCommand)
+				.onMessage(DeleteProjectCommand.class, this::handleDeleteProjectCommand)
 				.build();
 	}
 	
@@ -112,6 +115,28 @@ public class ProjectServiceCommandHandlers {
 	
 	private Message handleUpdateProjectCommand(CommandMessage<UpdateProjectCommand> cm) {
 		log.info("handleUpdateProjectCommand() - ProjectServiceCommandHandlers");
+		
+		return withSuccess();
+	}
+	
+	private Message handleDeleteProjectCommand(CommandMessage<DeleteProjectCommand> cm) {
+		log.info("handleDeleteProjectCommand() - ProjectServiceCommandHandlers");
+		
+		DeleteProjectCommand command = cm.getCommand();
+		
+		Project project = projectServiceImpl.findOne(command.getProjectId());
+		
+		if(project == null) {
+			withFailure();
+		}
+		
+		log.info("project deleted successfully projectId: "+project.getId());
+		
+		List<ProjectDomainEvent> events = singletonList(new ProjectDeletedEvent(project.getId()));
+		ResultWithDomainEvents<Project, ProjectDomainEvent> projectAndEvents = new ResultWithDomainEvents<>(project, events);
+		
+		projectDomainEventPublisher.publish(project, projectAndEvents.events);
+		projectRepository.delete(project);
 		
 		return withSuccess();
 	}

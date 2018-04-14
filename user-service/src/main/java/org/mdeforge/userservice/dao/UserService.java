@@ -14,6 +14,7 @@ public interface UserService {
 	
 	public boolean shareProjectToUserList(List<String> userList, String projectId) throws BusinessException;
 	public boolean compensateShareProjectToUserList(List<String> userList, String projectId) throws BusinessException;
+	public boolean removeShareProjectToUserList(List<String> userList, String projectId) throws BusinessException;
 	
 	public void update(User user) throws BusinessException;
 	public void changePassword(User us, String password_old, String password_new, String password_new_r) throws BusinessException;

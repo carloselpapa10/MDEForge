@@ -7,6 +7,7 @@ import org.mdeforge.mdeforgeviewservice.model.Project;
 import org.mdeforge.mdeforgeviewservice.repository.ProjectRepository;
 import org.mdeforge.servicemodel.project.api.events.ProjectCompletedEvent;
 import org.mdeforge.servicemodel.project.api.events.ProjectCreatedEvent;
+import org.mdeforge.servicemodel.project.api.events.ProjectDeletedEvent;
 import org.mdeforge.servicemodel.project.api.events.ProjectRejectedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,7 @@ public class ProjectHistoryEventHandlers {
 				.onEvent(ProjectCreatedEvent.class, this::handleProjectCreatedEvent)
 				.onEvent(ProjectCompletedEvent.class, this::handleProjectCompletedEvent)
 				.onEvent(ProjectRejectedEvent.class, this::handleProjectRejectedEvent)
+				.onEvent(ProjectDeletedEvent.class, this::handleProjectDeletedEvent)
 				.build();
 	}
 	
@@ -56,6 +58,12 @@ public class ProjectHistoryEventHandlers {
 	
 	private void handleProjectRejectedEvent(DomainEventEnvelope<ProjectRejectedEvent> dee) {
 		log.info("handleProjectRejectedEvent() - ProjectHistoryEventHandlers");
+		
+		projectServiceImpl.delete(dee.getAggregateId());
+	}
+	
+	private void handleProjectDeletedEvent(DomainEventEnvelope<ProjectDeletedEvent> dee) {
+		log.info("handleProjectDeletedEvent() - ProjectHistoryEventHandlers");
 		
 		projectServiceImpl.delete(dee.getAggregateId());
 	}
