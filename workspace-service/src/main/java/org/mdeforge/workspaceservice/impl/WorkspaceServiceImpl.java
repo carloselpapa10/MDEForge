@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 
 import org.mdeforge.servicemodel.common.BusinessException;
 import org.mdeforge.servicemodel.workspace.api.events.WorkspaceCreatedEvent;
+import org.mdeforge.servicemodel.workspace.api.events.WorkspaceDeletedEvent;
 import org.mdeforge.servicemodel.workspace.api.events.WorkspaceDomainEvent;
 import org.mdeforge.servicemodel.workspace.api.info.WorkspaceInfo;
 import org.mdeforge.workspaceservice.dao.WorkspaceService;
@@ -84,9 +85,20 @@ public class WorkspaceServiceImpl implements WorkspaceService{
 	}
 
 	@Override
-	public Workspace delete(String workspaceId) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean delete(String workspaceId) throws BusinessException {
+		Workspace workspace = findOne(workspaceId);
+		
+		if(workspace==null) {
+			return false;
+		}
+		
+		List<WorkspaceDomainEvent> events = singletonList(new WorkspaceDeletedEvent(workspace.getId()));
+		ResultWithDomainEvents<Workspace, WorkspaceDomainEvent> workspaceAndEvents = new ResultWithDomainEvents<>(workspace, events);
+		
+		workspaceRepository.delete(workspace);
+		workspaceAggregateEventPublisher.publish(workspace, workspaceAndEvents.events);
+		
+		return true;
 	}
 
 	@Override

@@ -11,7 +11,7 @@ public interface WorkspaceService {
 	
 	public Workspace create(Workspace workspace) throws BusinessException;
 	public Workspace update(Workspace workspace) throws BusinessException;
-	public Workspace delete(String workspaceId) throws BusinessException;
+	public Boolean delete(String workspaceId) throws BusinessException;
 	
 	public List<Workspace> findAll() throws BusinessException;
 	public Workspace findOne(String id);

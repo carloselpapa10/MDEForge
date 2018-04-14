@@ -4,6 +4,7 @@ org/mdeforge/servicemodel/user/api/info/UserInfo.class
 org/mdeforge/servicemodel/user/api/events/UserUpdatedEvent.class
 org/mdeforge/servicemodel/workspace/api/events/WorkspaceUpdatedEvent.class
 org/mdeforge/servicemodel/artifact/api/events/ArtifactCreatedEvent.class
+org/mdeforge/servicemodel/user/api/events/CompensateSharedProjectToUserEvent.class
 org/mdeforge/servicemodel/workspace/api/command/ValidateWorkspaceListByProject.class
 org/mdeforge/servicemodel/project/api/command/RejectProjectCommand.class
 org/mdeforge/servicemodel/user/api/events/UserDomainEvent.class
@@ -11,11 +12,11 @@ org/mdeforge/servicemodel/artifact/api/events/ArtifactRejectedEvent.class
 org/mdeforge/servicemodel/project/api/events/ProjectCompletedEvent.class
 org/mdeforge/servicemodel/user/api/command/ValidateUserByWorkspace.class
 org/mdeforge/servicemodel/project/api/info/ProjectInfo.class
+org/mdeforge/servicemodel/project/api/command/UpdateProjectCommand.class
 org/mdeforge/servicemodel/artifact/api/events/ArtifactCompletedEvent.class
 org/mdeforge/servicemodel/user/api/command/CompensateShareProjectToUserList.class
 org/mdeforge/servicemodel/workspace/api/command/UpdateWorkspaceCommand.class
 org/mdeforge/servicemodel/workspace/api/command/CompleteWorkspaceCommand.class
-org/mdeforge/servicemodel/artifact/api/command/ValidateArtifactListByWorkspace.class
 org/mdeforge/servicemodel/user/api/events/UserCreatedEvent.class
 org/mdeforge/servicemodel/workspace/api/events/WorkspaceCreatedEvent.class
 org/mdeforge/servicemodel/project/api/command/ProjectCommand.class
@@ -28,6 +29,7 @@ org/mdeforge/servicemodel/artifact/api/info/ArtifactInfo.class
 org/mdeforge/servicemodel/workspace/api/events/WorkspaceDeletedEvent.class
 org/mdeforge/servicemodel/project/api/command/ValidateProjectListByWorkspace.class
 org/mdeforge/servicemodel/workspace/api/command/RejectWorkspaceCommand.class
+org/mdeforge/servicemodel/user/api/events/SharedProjectToUserEvent.class
 org/mdeforge/servicemodel/workspace/api/events/WorkspaceCompletedEvent.class
 org/mdeforge/servicemodel/workspace/api/events/WorkspaceRejectedEvent.class
 org/mdeforge/servicemodel/user/api/info/RoleInfo.class

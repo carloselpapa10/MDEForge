@@ -9,6 +9,7 @@ import org.mdeforge.mdeforgeviewservice.model.Workspace;
 import org.mdeforge.mdeforgeviewservice.repository.WorkspaceRepository;
 import org.mdeforge.servicemodel.workspace.api.events.WorkspaceCompletedEvent;
 import org.mdeforge.servicemodel.workspace.api.events.WorkspaceCreatedEvent;
+import org.mdeforge.servicemodel.workspace.api.events.WorkspaceDeletedEvent;
 import org.mdeforge.servicemodel.workspace.api.events.WorkspaceRejectedEvent;
 import org.mdeforge.servicemodel.workspace.api.events.WorkspaceUpdatedEvent;
 import org.slf4j.Logger;
@@ -39,6 +40,7 @@ public class WorkspaceHistoryEventHandlers {
 				.onEvent(WorkspaceCompletedEvent.class, this::handleWorkspaceCompletedEvent)
 				.onEvent(WorkspaceRejectedEvent.class, this::handleWorkspaceRejectedEvent)
 				.onEvent(WorkspaceUpdatedEvent.class, this::handleWorkspaceUpdatedEvent)
+				.onEvent(WorkspaceDeletedEvent.class, this::handleWorkspaceDeletedEvent)
 				.build();
 	}
 	
@@ -89,5 +91,10 @@ public class WorkspaceHistoryEventHandlers {
 		});
 		
 		workspaceServiceImpl.update(workspace);
+	}
+	
+	private void handleWorkspaceDeletedEvent(DomainEventEnvelope<WorkspaceDeletedEvent> dee) {
+		log.info("handleWorkspaceDeletedEvent() - WorkspaceHistoryEventHandlers");
+		workspaceServiceImpl.delete(dee.getAggregateId());
 	}
 }
