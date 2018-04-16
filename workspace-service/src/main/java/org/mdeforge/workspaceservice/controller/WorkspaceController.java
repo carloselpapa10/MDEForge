@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class WorkspaceController {
 		return new CreateWorkspaceResponse(workspace.getId());
 	}
 	
-	@PostMapping("/update/workspace/")
+	@PutMapping("/update/workspace/")
 	public ResponseEntity<Workspace> updateWorkspace(@RequestBody Workspace workspace){
 		Workspace modifiedWorkspace =workspaceServiceImpl.update(workspace);
 		return modifiedWorkspace != null ? ResponseEntity.ok(modifiedWorkspace) : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

@@ -9,8 +9,12 @@ import org.mdeforge.userservice.model.User;
 import org.mdeforge.userservice.webapi.CreateUserRequest;
 import org.mdeforge.userservice.webapi.CreateUserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,6 +41,18 @@ public class UserController {
 		}
 		
 		return new CreateUserResponse();
+	}
+	
+	@PutMapping("/update/user")
+	public ResponseEntity<User> updateUser(@RequestBody User user){
+		/*TODO*/
+		return null;
+	}
+	
+	@DeleteMapping("/user/{userId}")
+	public String deleteUser(@PathVariable String userId) {
+		/*TODO*/
+		return null;
 	}
 	
 	@GetMapping("/users")
