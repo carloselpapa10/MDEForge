@@ -20,23 +20,23 @@ $ docker-compose up
 ```
 
 ### Swagger UI
-Artifact Service
+- Artifact Service
 ```sh
 http://localhost:5005/swagger-ui.html
 ```
-User Service
+- User Service
 ```sh
 http://localhost:5003/swagger-ui.html
 ```
-Project Service
+- Project Service
 ```sh
 http://localhost:5004/swagger-ui.html
 ```
-WorkspaceService
+- WorkspaceService
 ```sh
 http://localhost:5002/swagger-ui.html
 ```
-MDEForge View Service
+- MDEForge View Service
 ```sh
 http://localhost:5001/swagger-ui.html
 ```
