@@ -19,6 +19,10 @@ $ mvn clean package -s settings.xml docker:build
 $ docker-compose up
 ```
 
+### Config init
+
+- Execute Mongodb queries [see](https://github.com/carloselpapa10/MDEForge/blob/master/config-init/steps.txt)
+
 ### Swagger UI
 - Artifact Service
 ```sh
